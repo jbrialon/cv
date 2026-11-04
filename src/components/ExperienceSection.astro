@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+import SectionRow from "./SectionRow.astro";
+
+const experienceEntries = (await getCollection("experience")).sort(
+  (firstEntry, secondEntry) => secondEntry.data.startDate.getTime() - firstEntry.data.startDate.getTime(),
+);
+
+const monthYearFormat = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+const toIsoMonth = (date: Date) => date.toISOString().slice(0, 7);
+---
+
+<SectionRow title="Experience" id="experience">
+  {experienceEntries.map(({ data: job }) => (
+    <article class="experience-entry">
+      <div class="experience-meta">
+        <h3 class="heading-3">{job.role}</h3>
+        <p class="paragraph">{job.company}<br />{job.location}</p>
+        <p class="paragraph experience-dates">
+          <time datetime={toIsoMonth(job.startDate)}>{monthYearFormat.format(job.startDate)}</time>
+          {" — "}
+          <time datetime={toIsoMonth(job.endDate)}>{monthYearFormat.format(job.endDate)}</time>
+        </p>
+      </div>
+
+      <ul class="experience-highlights" role="list">
+        {job.highlights.map((highlight) => <li class="paragraph section-icon-trigger">{highlight}</li>)}
+      </ul>
+    </article>
+  ))}
+</SectionRow>
+
+<style>
+  .experience-entry {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .experience-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .experience-dates {
+    color: var(--color-ink-soft);
+  }
+
+  .experience-highlights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    li {
+      display: flex;
+      gap: 12px;
+
+      &::before {
+        content: ">";
+        flex-shrink: 0;
+        color: var(--color-feldgrau);
+      }
+    }
+  }
+
+  @media (min-width: 40em) {
+    .experience-entry {
+      grid-template-columns: subgrid;
+    }
+  }
+
+  @media (min-width: 60em) {
+    .experience-entry {
+      grid-column: 2 / -1;
+    }
+  }
+</style>

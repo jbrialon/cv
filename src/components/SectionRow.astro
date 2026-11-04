@@ -36,6 +36,17 @@ const headingId = `${id}-title`;
     svg {
       color: var(--color-feldgrau);
       flex-shrink: 0;
+      transition: transform 0.4s var(--ease-out-quart);
+    }
+  }
+
+  .section-row:has(:global(.button-link:hover, .button-link:focus-visible, .section-icon-trigger:hover)) .section-title svg {
+    transform: rotate(90deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-title svg {
+      transition: none;
     }
   }
 
