@@ -1,0 +1,44 @@
+---
+import SectionRow from './SectionRow.astro';
+import { profile } from '../data/profile';
+---
+
+<SectionRow title="Profile" id="profile">
+  <div class="profile-column">
+    <h3>{profile.headline}</h3>
+    {profile.summary.map((paragraph) => <p>{paragraph}</p>)}
+  </div>
+
+  <div class="profile-column">
+    <h3>Contact</h3>
+    <p class="location">{profile.location}</p>
+  </div>
+</SectionRow>
+
+<style>
+  .profile-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  .location {
+    color: var(--color-ink-soft);
+  }
+
+  .contact-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>

@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ProfileSection from '../components/ProfileSection.astro';
 import { profile } from '../data/profile';
 ---
 
 <BaseLayout title={`${profile.name} — ${profile.role}`} >
   <main class="page-content">
-    {profile.name} — {profile.role}
+    <ProfileSection />
   </main>
 </BaseLayout>
 
@@ -16,7 +17,7 @@ import { profile } from '../data/profile';
     padding: 0 32px;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 40em) {
     .page-content {
       padding: 0 16px;
     }
