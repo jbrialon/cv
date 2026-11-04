@@ -5,6 +5,13 @@ export interface Profile {
   email: string;
   headline: string;
   summary: string[];
+  contactLinks: ContactLink[];
+}
+
+export interface ContactLink {
+  label: string;
+  href: string;
+  external: boolean;
 }
 
 export const profile: Profile = {
@@ -16,5 +23,14 @@ export const profile: Profile = {
   summary: [
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud exercitation.",
     "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+  ],
+  contactLinks: [
+    { label: "+33 6 07 26 55 12", href: "tel:+33607265512", external: false },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/jeremy-brialon-81694543/",
+      external: true,
+    },
+    { label: "GitHub", href: "https://github.com/jbrialon", external: true },
   ],
 };

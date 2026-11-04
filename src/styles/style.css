@@ -1,5 +1,8 @@
 @import "./variables/typography.css";
 @import "./variables/colors.css";
+@import "./variables/easings.css";
+@import "./variables/z-index.css";
+@import "./helpers.css";
 
 * {
   margin: 0;
