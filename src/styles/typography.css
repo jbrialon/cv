@@ -1,0 +1,13 @@
+.heading-2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.heading-3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.paragraph {
+  text-wrap: pretty;
+}

@@ -6,13 +6,13 @@ import { profile } from '../data/profile';
 
 <SectionRow title="Profile" id="profile">
   <div class="profile-column">
-    <h3>{profile.headline}</h3>
-    {profile.summary.map((paragraph) => <p>{paragraph}</p>)}
+    <h3 class="heading-3">{profile.headline}</h3>
+    {profile.summary.map((paragraph) => <p class="paragraph">{paragraph}</p>)}
   </div>
 
   <div class="profile-column">
-    <h3>Contact</h3>
-    <p class="location">{profile.location}</p>
+    <h3 class="heading-3">Contact</h3>
+    <p class="paragraph location">{profile.location}</p>
     <ul class="contact-links">
       {profile.contactLinks.map((contactLink) => (
         <li>
@@ -30,15 +30,6 @@ import { profile } from '../data/profile';
     display: flex;
     flex-direction: column;
     gap: 12px;
-  }
-
-  h3 {
-    font-size: 1.125rem;
-    font-weight: 600;
-  }
-
-  p {
-    text-wrap: pretty;
   }
 
   .location {

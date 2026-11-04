@@ -1,7 +1,7 @@
-@import "./variables/typography.css";
 @import "./variables/colors.css";
 @import "./variables/easings.css";
 @import "./variables/z-index.css";
+@import "./typography.css";
 @import "./helpers.css";
 
 * {
@@ -24,7 +24,7 @@ body {
   color: var(--color-ink);
   font-family: var(--font-mono);
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+  /* -webkit-font-smoothing: antialiased; */
 }
 
 a {

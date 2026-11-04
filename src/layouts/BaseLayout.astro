@@ -1,8 +1,5 @@
 ---
-import '@fontsource/ibm-plex-mono/400.css';
-import '@fontsource/ibm-plex-mono/500.css';
-import '@fontsource/ibm-plex-mono/600.css';
-import '@fontsource/instrument-serif/400.css';
+import { Font } from 'astro:assets';
 import '../styles/style.css';
 
 interface Props {
@@ -18,6 +15,8 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="TODO" />
     <meta name="theme-color" content="#607161" />
+    <Font cssVariable="--font-mono" preload={[{ weight: 400 }, { weight: 600 }]} />
+    <Font cssVariable="--font-serif" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
