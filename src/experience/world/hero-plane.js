@@ -1,4 +1,5 @@
 import * as THREE from "three/webgpu";
+import gsap from "gsap";
 import {
   color,
   dot,
@@ -26,13 +27,16 @@ export default class HeroPlane {
       color: 0x607161,
       uColor: uniform(color(0x607161)),
       uScrollOffset: uniform(0),
-      uGrainStrength: uniform(0.1),
+      grainStrength: 0.1,
+      // starts at 0 so the grain fades in over the CSS hero background
+      uGrainStrength: uniform(0),
     };
 
     // Setup
     this.setGeometry();
     this.setMaterial();
     this.setMesh();
+    this.fadeInGrain();
 
     // Debug
     this.setDebug();
@@ -76,6 +80,19 @@ export default class HeroPlane {
     this.scene.add(this.mesh);
   }
 
+  fadeInGrain() {
+    if (this.experience.prefersReducedMotion) {
+      this.options.uGrainStrength.value = this.options.grainStrength;
+      return;
+    }
+
+    gsap.to(this.options.uGrainStrength, {
+      value: this.options.grainStrength,
+      duration: 1.2,
+      ease: "power2.out",
+    });
+  }
+
   setDebug() {
     if (this.debug.active) {
       this.debugFolder = this.debug.ui.addFolder({
@@ -90,12 +107,16 @@ export default class HeroPlane {
           this.options.uColor.value.set(this.options.color);
         });
 
-      this.debugFolder.addBinding(this.options.uGrainStrength, "value", {
-        label: "grainStrength",
-        min: 0,
-        max: 0.5,
-        step: 0.005,
-      });
+      this.debugFolder
+        .addBinding(this.options, "grainStrength", {
+          min: 0,
+          max: 0.5,
+          step: 0.005,
+        })
+        .on("change", () => {
+          gsap.killTweensOf(this.options.uGrainStrength);
+          this.options.uGrainStrength.value = this.options.grainStrength;
+        });
     }
   }
 
@@ -105,6 +126,7 @@ export default class HeroPlane {
   }
 
   destroy() {
+    gsap.killTweensOf(this.options.uGrainStrength);
     this.geometry.dispose();
     this.material.dispose();
     this.scene.remove(this.mesh);

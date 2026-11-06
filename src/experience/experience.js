@@ -29,6 +29,9 @@ export default class Experience {
     // Options
     this.canvas = options.canvas || null;
     this.targetElement = options.targetElement || null;
+    this.prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     if (!this.targetElement || !this.canvas) {
       console.warn(
