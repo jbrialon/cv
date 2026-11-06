@@ -17,7 +17,6 @@ import { profile } from '../data/profile';
 <style>
   .hero {
     position: relative;
-    z-index: var(--z-content);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,8 +24,15 @@ import { profile } from '../data/profile';
     min-height: 100svh;
     padding: 4.5rem 1rem;
     overflow: hidden;
-    background: var(--color-feldgrau);
-    
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: var(--z-background);
+      background: var(--color-feldgrau);
+    }
+
     & :global(.button-link:focus-visible) {
       outline-color: var(--color-jasmine);
     }
