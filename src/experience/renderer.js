@@ -11,10 +11,7 @@ export default class Renderer {
     this.camera = this.experience.camera;
 
     // Options
-    this.options = {
-      toneMapping: THREE.NoToneMapping,
-      toneMappingExposure: 1,
-    };
+    this.options = {};
   }
 
   async setInstance() {
@@ -36,44 +33,6 @@ export default class Renderer {
 
     this.instance.setSize(this.sizes.width, this.sizes.height);
     this.instance.setPixelRatio(this.sizes.pixelRatio);
-
-    this.setDebug();
-  }
-
-  setDebug() {
-    if (this.debug.active) {
-      this.debugFolder = this.debug.ui.addFolder({
-        title: "Experience",
-        expanded: false,
-      });
-      // Tone Mapping
-      this.debugFolder
-        .addBinding(this.options, "toneMapping", {
-          options: {
-            None: THREE.NoToneMapping,
-            Linear: THREE.LinearToneMapping,
-            Reinhard: THREE.ReinhardToneMapping,
-            Cineon: THREE.CineonToneMapping,
-            ACESFilmic: THREE.ACESFilmicToneMapping,
-            AgX: THREE.AgXToneMapping,
-            Neutral: THREE.NeutralToneMapping,
-          },
-        })
-        .on("change", () => {
-          this.instance.toneMapping = Number(this.options.toneMapping);
-        });
-      // Tone Mapping Exposure
-      this.debugFolder
-        .addBinding(this.options, "toneMappingExposure", {
-          label: "Exposure",
-          min: 0,
-          max: 2,
-          step: 0.01,
-        })
-        .on("change", () => {
-          this.instance.toneMappingExposure = this.options.toneMappingExposure;
-        });
-    }
   }
 
   resize() {
