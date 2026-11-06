@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import SectionRow from "./SectionRow.astro";
+
+const educationEntries = (await getCollection("education")).sort(
+  (firstEntry, secondEntry) => secondEntry.data.endYear - firstEntry.data.endYear,
+);
+---
+
+<SectionRow title="Education" id="education">
+  <ul class="education-list" role="list">
+    {educationEntries.map(({ data: diploma }) => (
+      <li class="paragraph education-item section-icon-trigger">
+        <b>{diploma.degree}</b>
+        <br />
+        {diploma.school} ·{" "}
+        <span class="education-years">
+          <time datetime={String(diploma.startYear)}>{diploma.startYear}</time>–<time datetime={String(diploma.endYear)}>{diploma.endYear}</time>
+        </span>
+      </li>
+    ))}
+  </ul>
+</SectionRow>
+
+<style>
+  .education-list {
+    list-style: none;
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px 32px;
+  }
+
+  .education-years {
+    color: var(--color-ink-soft);
+  }
+
+  @media (min-width: 40em) {
+    .education-list {
+      grid-template-columns: subgrid;
+    }
+  }
+
+  @media (min-width: 60em) {
+    .education-list {
+      grid-column: 2 / -1;
+    }
+  }
+</style>

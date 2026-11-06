@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
-import SectionRow from "./SectionRow.astro";
+import WindowFrame from "./WindowFrame.astro";
+import ArrowRightIcon from "../icons/arrow-right.svg";
 
 const experienceEntries = (await getCollection("experience")).sort(
   (firstEntry, secondEntry) => secondEntry.data.startDate.getTime() - firstEntry.data.startDate.getTime(),
@@ -8,34 +9,64 @@ const experienceEntries = (await getCollection("experience")).sort(
 
 const monthYearFormat = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 const toIsoMonth = (date: Date) => date.toISOString().slice(0, 7);
+
+const firstYear = experienceEntries.reduce(
+  (earliestYear, { data }) => Math.min(earliestYear, data.startDate.getUTCFullYear()),
+  Infinity,
+);
+const lastYear = experienceEntries.reduce(
+  (latestYear, { data }) => Math.max(latestYear, data.endDate.getUTCFullYear()),
+  -Infinity,
+);
 ---
 
-<SectionRow title="Experience" id="experience">
-  {experienceEntries.map(({ data: job }) => (
-    <article class="experience-entry">
-      <div class="experience-meta">
-        <h3 class="heading-3">{job.role}</h3>
-        <p class="paragraph">{job.company}<br />{job.location}</p>
-        <p class="paragraph experience-dates">
-          <time datetime={toIsoMonth(job.startDate)}>{monthYearFormat.format(job.startDate)}</time>
-          {" — "}
-          <time datetime={toIsoMonth(job.endDate)}>{monthYearFormat.format(job.endDate)}</time>
-        </p>
-      </div>
+<WindowFrame id="experience" label="Experience" filename="experience.json">
+  <span slot="meta" class="year-range">
+    {firstYear}
+    <ArrowRightIcon class="year-range-arrow" width="12" height="12" aria-hidden="true" />
+    <span class="visually-hidden">to</span>
+    {lastYear}
+  </span>
 
-      <ul class="experience-highlights" role="list">
-        {job.highlights.map((highlight) => <li class="paragraph section-icon-trigger">{highlight}</li>)}
-      </ul>
-    </article>
-  ))}
-</SectionRow>
+  <div class="experience-body">
+    {experienceEntries.map(({ data: job }) => (
+      <article class="experience-entry">
+        <div class="experience-meta">
+          <h3 class="heading-3">{job.role}</h3>
+          <p class="paragraph">{job.company}<br />{job.location}</p>
+          <p class="paragraph experience-dates">
+            <time datetime={toIsoMonth(job.startDate)}>{monthYearFormat.format(job.startDate)}</time>
+            <ArrowRightIcon class="year-range-arrow" width="12" height="12" aria-hidden="true" />
+            <span class="visually-hidden">to</span>
+            <time datetime={toIsoMonth(job.endDate)}>{monthYearFormat.format(job.endDate)}</time>
+          </p>
+        </div>
+
+        <ul class="experience-highlights" role="list">
+          {job.highlights.map((highlight) => <li class="paragraph">{highlight}</li>)}
+        </ul>
+      </article>
+    ))}
+  </div>
+</WindowFrame>
 
 <style>
+  .experience-body {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px;
+  }
+
   .experience-entry {
     display: grid;
-    grid-column: 1 / -1;
     grid-template-columns: minmax(0, 1fr);
-    gap: 32px;
+    gap: 24px;
+
+    & + & {
+      padding-top: 32px;
+      border-top: 1px solid var(--color-sheepskin);
+    }
   }
 
   .experience-meta {
@@ -45,7 +76,20 @@ const toIsoMonth = (date: Date) => date.toISOString().slice(0, 7);
   }
 
   .experience-dates {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     color: var(--color-ink-soft);
+  }
+
+  .year-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .year-range-arrow {
+    flex-shrink: 0;
   }
 
   .experience-highlights {
@@ -67,14 +111,13 @@ const toIsoMonth = (date: Date) => date.toISOString().slice(0, 7);
   }
 
   @media (min-width: 40em) {
-    .experience-entry {
-      grid-template-columns: subgrid;
+    .experience-body {
+      padding: 40px;
     }
-  }
 
-  @media (min-width: 60em) {
     .experience-entry {
-      grid-column: 2 / -1;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      gap: 40px;
     }
   }
 </style>

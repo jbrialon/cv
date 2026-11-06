@@ -4,17 +4,21 @@ import BackgroundCanvas from '../components/BackgroundCanvas.astro';
 import HeroSection from '../components/HeroSection.astro';
 import ProfileSection from '../components/ProfileSection.astro';
 import ExperienceSection from '../components/ExperienceSection.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
 import ExpertiseSection from '../components/ExpertiseSection.astro';
+import EducationSection from '../components/EducationSection.astro';
 import { profile } from '../data/profile';
 ---
 
-<BaseLayout title={`${profile.name} — ${profile.role}`} >
+<BaseLayout title={`${profile.name}, ${profile.role}`}>
   <BackgroundCanvas />
   <HeroSection />
   <main class="page-content">
     <ProfileSection />
-		<ExperienceSection />
-		<ExpertiseSection />
+    <ExperienceSection />
+    <ExpertiseSection />
+    <ProjectsSection />
+    <EducationSection />
   </main>
 </BaseLayout>
 

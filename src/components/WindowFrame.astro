@@ -1,0 +1,89 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  filename: string;
+  tone?: "sheepskin" | "feldgrau";
+}
+
+const { id, label, filename, tone = "sheepskin" } = Astro.props;
+---
+
+<section class="window-frame" id={id} aria-label={label}>
+  <div class:list={["window-title-bar", `window-title-bar--${tone}`]}>
+    <span class="window-controls" aria-hidden="true">
+      <span class="window-control window-control--filled"></span>
+      <span class="window-control"></span>
+      <span class="window-control"></span>
+    </span>
+    <span>{filename}</span>
+    {Astro.slots.has("meta") && <span class="window-meta"><slot name="meta" /></span>}
+  </div>
+  <slot />
+</section>
+
+<style>
+  .window-frame {
+    position: relative;
+    margin-block: 48px 72px;
+    border: 2px solid var(--color-ink);
+    background: var(--color-paper);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+      opacity: 0.3;
+    }
+  }
+
+  .window-title-bar {
+    --title-bar-background: var(--color-sheepskin);
+    --title-bar-text: var(--color-ink);
+    --title-bar-muted: var(--color-ink-soft);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 14px;
+    border-bottom: 2px solid var(--color-ink);
+    background: var(--title-bar-background);
+    color: var(--title-bar-text);
+    font-size: 0.8125rem;
+  }
+
+  .window-title-bar--feldgrau {
+    --title-bar-background: var(--color-feldgrau);
+    --title-bar-text: var(--color-paper);
+    --title-bar-muted: var(--color-paper);
+  }
+
+  .window-controls {
+    display: flex;
+    gap: 6px;
+  }
+
+  .window-control {
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--title-bar-text);
+  }
+
+  .window-control--filled {
+    background: var(--title-bar-text);
+  }
+
+  .window-meta {
+    color: var(--title-bar-muted);
+  }
+
+  @media (min-width: 40em) {
+    .window-frame {
+      box-shadow: 8px 8px 0 var(--color-ink);
+    }
+  }
+</style>

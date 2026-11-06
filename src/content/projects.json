@@ -1,0 +1,35 @@
+[
+  {
+    "id": "chopard",
+    "order": 1,
+    "name": "Chopard",
+    "detail": "3D Viewer",
+    "role": "Lead 3D development & Asset Pipeline"
+  },
+  {
+    "id": "audemars-piguet",
+    "order": 2,
+    "name": "Audemars Piguet",
+    "role": "Lead Front-end & 3D Development"
+  },
+  {
+    "id": "vacheron-constantin",
+    "order": 3,
+    "name": "Vacheron Constantin",
+    "role": "Front-end Development"
+  },
+  {
+    "id": "ulysse-nardin",
+    "order": 4,
+    "name": "Ulysse Nardin",
+    "detail": "Diver",
+    "role": "Front-end & 3D Development"
+  },
+  {
+    "id": "devenir",
+    "order": 5,
+    "name": "Devenir",
+    "role": "3D / Unreal Engine Development",
+    "award": "W3 Best in Show + Webby People's Voice"
+  }
+]

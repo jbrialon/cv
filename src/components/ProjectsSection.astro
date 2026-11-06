@@ -1,0 +1,89 @@
+---
+import { getCollection } from "astro:content";
+import WindowFrame from "./WindowFrame.astro";
+
+const projectEntries = (await getCollection("projects")).sort(
+  (firstEntry, secondEntry) => firstEntry.data.order - secondEntry.data.order,
+);
+const formatNumber = (value: number) => String(value).padStart(2, "0");
+---
+
+<WindowFrame id="projects" label="Selected client projects" filename="selected-projects/" tone="feldgrau">
+  <Fragment slot="meta">{formatNumber(projectEntries.length)} items</Fragment>
+
+  <div class="projects-body">
+    <div class="projects-content">
+      <ol class="projects-list" role="list">
+        {projectEntries.map(({ data: project }) => (
+          <li class="project-item">
+            <span class="project-number">{formatNumber(project.order)}</span>
+            <span>
+              <b>{project.name}</b>{project.detail && `, ${project.detail}`}
+              <br />
+              <span class="project-role">
+                {project.role}{project.award && ` (${project.award})`}
+              </span>
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="projects-illustration js-project-illustration" aria-hidden="true">todo</div>
+  </div>
+</WindowFrame>
+
+<style>
+  .projects-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .projects-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .projects-list {
+    list-style: none;
+    border-bottom: 1px solid var(--color-ink);
+  }
+
+  .project-item {
+    display: flex;
+    gap: 16px;
+    padding: 12px 0;
+    border-top: 1px solid var(--color-ink);
+  }
+
+  .project-number,
+  .project-role {
+    color: var(--color-ink-soft);
+  }
+
+  .projects-illustration {
+    aspect-ratio: 4 / 3;
+    border-top: 2px solid var(--color-ink);
+    background: var(--color-jasmine);
+  }
+
+  @media (min-width: 40em) {
+    .projects-content {
+      padding: 40px;
+    }
+  }
+
+  @media (min-width: 60em) {
+    .projects-body {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    }
+
+    .projects-illustration {
+      aspect-ratio: auto;
+      border-top: 0;
+      border-left: 2px solid var(--color-ink);
+    }
+  }
+</style>

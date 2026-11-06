@@ -1,0 +1,16 @@
+[
+  {
+    "id": "ingemedia-master",
+    "degree": "Master's Degree, Information & Communication",
+    "school": "INGÉMEDIA, Toulon",
+    "startYear": 2011,
+    "endYear": 2013
+  },
+  {
+    "id": "iut-le-puy-licence",
+    "degree": "Professional Bachelor's, Multimedia",
+    "school": "IUT Le Puy-en-Velay",
+    "startYear": 2010,
+    "endYear": 2011
+  }
+]
