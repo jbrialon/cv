@@ -16,13 +16,12 @@ export interface ContactLink {
 
 export const profile: Profile = {
   name: "Jérémy Brialon",
-  role: "Senior Front-End Developer - Immersive experiences",
+  role: "Senior Front-End Developer - Immersive Experiences",
   location: "Annecy (FR) · Geneva (CH)",
   email: "jeremy.brialon@pm.me",
   headline: "Front-End & Immersive Experiences",
   summary: [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud exercitation.",
-    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    "Senior front-end developer with 10+ years building websites for watchmaking and luxury brands and the immersive, real-time 3D experiences that go with them.",
   ],
   contactLinks: [
     { label: "+33 6 07 26 55 12", href: "tel:+33607265512", external: false },

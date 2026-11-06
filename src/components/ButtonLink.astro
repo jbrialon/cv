@@ -10,7 +10,7 @@ const { href, external = false } = Astro.props;
 ---
 
 <a
-  class="button-link"
+  class="button-link theme-dark"
   href={href}
   target={external ? '_blank' : undefined}
   rel={external ? 'noopener noreferrer' : undefined}
@@ -31,9 +31,7 @@ const { href, external = false } = Astro.props;
     gap: 6px;
     padding: 8px 14px;
     border-radius: 999px;
-    background-color: var(--color-forest);
-    color: var(--color-jasmine);
-    font-size: 14px;
+    font-size: 0.875rem;
     text-decoration: none;
     box-shadow: 0 0 0 0 var(--color-shadow);
     transition:

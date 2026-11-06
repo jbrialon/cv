@@ -6,3 +6,14 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+.theme-dark {
+  background: var(--color-forest);
+  color: var(--color-jasmine);
+
+  &::selection,
+  & ::selection {
+    background: var(--color-jasmine);
+    color: var(--color-forest);
+  }
+}

@@ -1,0 +1,44 @@
+---
+import SectionRow from "./SectionRow.astro";
+import { skillGroups } from "../data/expertise";
+---
+
+<SectionRow title="Expertise" id="expertise">
+  {skillGroups.map((skillGroup) => (
+    <div class="skill-group">
+      <h3 class="heading-3">{skillGroup.title}</h3>
+      <ul class="skill-list" role="list">
+        {skillGroup.skills.map((skill) => (
+          <li class:list={["skill-tag", `skill-tag--${skillGroup.emphasis}`, { "theme-dark": skillGroup.emphasis === "primary" }, "section-icon-trigger"]}>{skill}</li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</SectionRow>
+
+<style>
+  .skill-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .skill-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .skill-tag {
+    padding: 6px 12px;
+    border: 1px solid var(--color-feldgrau);
+    border-radius: 999px;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .skill-tag--primary {
+    border-color: var(--color-forest);
+  }
+</style>
