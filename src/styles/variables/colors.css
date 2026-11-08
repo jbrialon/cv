@@ -9,8 +9,6 @@
   --sky-7: #0a264c;
   --sky-8: #222328;
 
-  --blob-night-1: #334970;
-  --blob-night-2: #8aa4b5;
   --blob-dawn-1: #e8b888;
   --blob-dawn-2: #b6b4c2;
 
@@ -21,6 +19,7 @@
   --color-on-dark: #fdeedf;
   --color-hairline: rgb(34 35 40 / 0.2);
   --color-accent: #d17a6c;
+  --color-marker: var(--color-accent);
   --color-shadow: #d17a6c;
   --color-title-bar: #e8b888;
   --color-title-bar-alt: #93b6c9;

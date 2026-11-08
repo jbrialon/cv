@@ -1,22 +1,22 @@
 import gsap from "gsap";
+import { Color, Vector2 } from "three/webgpu";
 import {
   Fn,
   array,
   clamp,
-  cos,
-  distance,
+  dot,
   float,
   floor,
   fract,
   min,
   mix,
+  pow,
   sRGBTransferEOTF,
-  sin,
   smoothstep,
   screenUV,
   time,
   uniform,
-  vec2,
+  uniformArray,
   vec3,
   vec4,
   viewportSize,
@@ -25,6 +25,8 @@ import {
 import Experience from "../experience.js";
 import getCssColors, { toRawColor } from "../utils/css-colors.js";
 import { filmGrain, hasImpreciseSin } from "../utils/film-grain.js";
+import { simplexNoise3d } from "../utils/simplex-noise.js";
+import BLOB_PALETTES, { DEFAULT_BLOB_PALETTE } from "./blob-palettes.js";
 
 const LIGHT_SKY_PROPERTIES = [
   "--sky-0",
@@ -36,24 +38,17 @@ const LIGHT_SKY_PROPERTIES = [
 ];
 const LAST_LIGHT_STAGE = LIGHT_SKY_PROPERTIES.length - 1;
 
-// one colour per light stage for each blob
-const BLOB_ONE_HEXES = [
-  "#E8B888",
-  "#E4CFD1",
-  "#EFE3D3",
-  "#D7AA84",
-  "#5E85A2",
-  "#F5B595",
-];
-const BLOB_TWO_HEXES = [
-  "#B6B4C2",
-  "#FED4C5",
-  "#CFC4C2",
-  "#E5A898",
-  "#FDB368",
-  "#E7A4AB",
+// section marker colour per light stage, each one readable on its sky
+const MARKER_HEXES = [
+  "#B77635",
+  "#A45850",
+  "#946E4C",
+  "#666A66",
+  "#445D6B",
+  "#526369",
 ];
 const HERO_STAGE = 6;
+const CURSOR_HOLE_RADIUS = 0.015;
 
 export default class SkyBackground {
   constructor() {
@@ -65,6 +60,11 @@ export default class SkyBackground {
     // Windows and phone/tablet GPUs make a moiré pattern with the sin grain, so they get the hash grain
     const useSinGrain = !hasImpreciseSin();
 
+    // no mouse to follow on phones and tablets, so no hole in the blobs there
+    this.isTouch = window.matchMedia(
+      "(hover: none), (pointer: coarse)",
+    ).matches;
+
     // Options
     this.options = {
       grainStrength: 0.1,
@@ -72,10 +72,32 @@ export default class SkyBackground {
       useSinGrain: useSinGrain,
       uUseSinGrain: uniform(useSinGrain ? 1 : 0),
       uStage: uniform(HERO_STAGE),
+      uPointer: uniform(new Vector2(0.5, 0.5)),
+      uMouseInteraction: uniform(this.isTouch ? 0 : 1),
+      blobPalette: DEFAULT_BLOB_PALETTE,
+      uBlobOneColors: uniformArray(
+        LIGHT_SKY_PROPERTIES.map(() => new Color()),
+        "color",
+      ),
+      uBlobTwoColors: uniformArray(
+        LIGHT_SKY_PROPERTIES.map(() => new Color()),
+        "color",
+      ),
+      uNightBlobOneColor: uniform(new Color()),
+      uNightBlobTwoColor: uniform(new Color()),
     };
+
+    // where the mouse really is, the hole slowly catches up with it
+    this.pointerTarget = new Vector2(0.5, 0.5);
+
+    this.markerColors = MARKER_HEXES.map(toRawColor);
+    this.markerValue = null;
+
+    this.setBlobPalette(this.options.blobPalette);
 
     // Setup
     this.setBackground();
+    this.setPointer();
     this.fadeIn();
 
     // Debug
@@ -84,31 +106,20 @@ export default class SkyBackground {
 
   setBackground() {
     const cssColors = getCssColors(
-      LIGHT_SKY_PROPERTIES.concat([
-        "--sky-8",
-        "--sky-7",
-        "--sky-6",
-        "--blob-night-1",
-        "--blob-night-2",
-      ]),
+      LIGHT_SKY_PROPERTIES.concat(["--sky-8", "--sky-7", "--sky-6"]),
     ).map((cssColor) => vec3(cssColor.r, cssColor.g, cssColor.b));
 
     // one flat colour per light stage, same as the CSS body gradient
     const skyColors = array(cssColors.slice(0, LAST_LIGHT_STAGE + 1));
-    const [
-      heroTop,
-      heroMiddle,
-      heroBottom,
-      nightBlobOneColor,
-      nightBlobTwoColor,
-    ] = cssColors.slice(LAST_LIGHT_STAGE + 1);
+    const [heroTop, heroMiddle, heroBottom] = cssColors.slice(
+      LAST_LIGHT_STAGE + 1,
+    );
 
-    const toShaderColor = (hex) => {
-      const rawColor = toRawColor(hex);
-      return vec3(rawColor.r, rawColor.g, rawColor.b);
-    };
-    const blobOneColors = array(BLOB_ONE_HEXES.map(toShaderColor));
-    const blobTwoColors = array(BLOB_TWO_HEXES.map(toShaderColor));
+    // uniforms, so the palette can be swapped while the page runs
+    const blobOneColors = this.options.uBlobOneColors;
+    const blobTwoColors = this.options.uBlobTwoColors;
+    const nightBlobOneColor = this.options.uNightBlobOneColor;
+    const nightBlobTwoColor = this.options.uNightBlobTwoColor;
 
     const backgroundShader = Fn(() => {
       // stretch x so the blobs stay round on wide screens
@@ -169,40 +180,37 @@ export default class SkyBackground {
         heroAmount,
       );
 
-      // the blobs drift along slow looping curves
-      // frozen at 0 when motion is reduced, so the blobs stay still
+      // the noise scrolls through time, frozen at 0 when motion is reduced so the blobs stay still
       const elapsed = this.experience.prefersReducedMotion ? float(0) : time;
-      const blobOneCenter = vec2(
-        sin(elapsed.mul(0.4)).mul(0.3).add(0.5),
-        cos(elapsed.mul(0.3)).mul(0.45).add(0.5),
-      );
-      const blobTwoCenter = vec2(
-        cos(elapsed.mul(0.6)).mul(0.2).add(aspect.mul(0.5)),
-        sin(elapsed.mul(0.5)).mul(0.35).add(0.5),
-      );
+      const noiseTime = elapsed.mul(0.3);
 
-      // 1 at the centre, fading to 0 at 0.75 away
-      const blobOne = smoothstep(
-        0.0,
-        0.75,
-        distance(roundUv, blobOneCenter),
-      ).oneMinus();
-      const blobTwo = smoothstep(
-        0.0,
-        0.75,
-        distance(roundUv, blobTwoCenter),
-      ).oneMinus();
+      // 3 noise samples, slightly offset, averaged into soft blobs
+      const noise = simplexNoise3d(vec3(roundUv, noiseTime));
+      const noiseAhead = simplexNoise3d(vec3(roundUv.add(0.1), noiseTime));
+      const noiseBehind = simplexNoise3d(vec3(roundUv.sub(0.1), noiseTime));
+      const averageNoise = noise.add(noiseAhead).add(noiseBehind).div(3.0);
 
-      const skyWithBlobOne = mix(
-        skyColor,
-        blobOneColor,
-        smoothstep(0.0, 1.0, blobOne),
+      // distance to the mouse, with y squashed so the hole stays round
+      const toPointer = screenUV.sub(this.options.uPointer).toVar();
+      toPointer.y.assign(toPointer.y.div(aspect));
+
+      // 0 right under the mouse, 1 further away
+      const cursorHole = smoothstep(
+        0.0,
+        CURSOR_HOLE_RADIUS,
+        pow(dot(toPointer, toPointer), 0.6).mul(0.1),
       );
-      const skyWithBlobs = mix(
-        skyWithBlobOne,
+      const blobHole = mix(1.0, cursorHole, this.options.uMouseInteraction);
+
+      // negative noise is cut off, so only the peaks show up as blobs
+      const blobAmount = averageNoise.mul(blobHole).saturate();
+
+      const blobColor = mix(
         blobTwoColor,
-        smoothstep(0.0, 1.0, blobTwo),
+        blobOneColor,
+        smoothstep(0.1, 1.0, noise.oneMinus()),
       );
+      const skyWithBlobs = mix(skyColor, blobColor, blobAmount);
 
       const grainOffset = filmGrain(this.options.uUseSinGrain)
         .sub(0.5)
@@ -217,6 +225,35 @@ export default class SkyBackground {
     });
 
     this.scene.backgroundNode = backgroundShader();
+  }
+
+  setBlobPalette(paletteKey) {
+    const palette = BLOB_PALETTES[paletteKey];
+    if (!palette) return;
+
+    this.options.blobPalette = paletteKey;
+
+    palette.blobOne.forEach((hex, stageIndex) => {
+      this.options.uBlobOneColors.array[stageIndex].copy(toRawColor(hex));
+    });
+    palette.blobTwo.forEach((hex, stageIndex) => {
+      this.options.uBlobTwoColors.array[stageIndex].copy(toRawColor(hex));
+    });
+    this.options.uNightBlobOneColor.value.copy(toRawColor(palette.night[0]));
+    this.options.uNightBlobTwoColor.value.copy(toRawColor(palette.night[1]));
+  }
+
+  setPointer() {
+    if (this.isTouch) return;
+
+    // same space as screenUV: 0 at the top left, 1 at the bottom right
+    this.onMouseMove = (event) => {
+      this.pointerTarget.set(
+        event.clientX / window.innerWidth,
+        event.clientY / window.innerHeight,
+      );
+    };
+    window.addEventListener("mousemove", this.onMouseMove);
   }
 
   // the background is always opaque (sadly), so the whole canvas fades in over the CSS gradients
@@ -235,6 +272,19 @@ export default class SkyBackground {
       this.debugFolder = this.debug.ui.addFolder({
         title: "Sky background",
       });
+
+      this.debugFolder
+        .addBinding(this.options, "blobPalette", {
+          options: {
+            "A · current": "current",
+            "B · tonal": "tonal",
+            "C · neighbours": "neighbours",
+            "D · sunrise": "sunrise",
+          },
+        })
+        .on("change", (event) => {
+          this.setBlobPalette(event.value);
+        });
 
       this.debugFolder
         .addBinding(this.options, "grainStrength", {
@@ -264,10 +314,45 @@ export default class SkyBackground {
 
     // top of the page is the hero stage (night), bottom is stage 0 (dawn)
     this.options.uStage.value = HERO_STAGE * (1 - progress);
+
+    this.updateMarkerColor();
+
+    // move 10% of the way to the mouse every 60fps frame, same speed on 120Hz screens
+    const easing = 1 - Math.pow(0.9, this.experience.time.delta / (1000 / 60));
+    this.options.uPointer.value.lerp(this.pointerTarget, easing);
+  }
+
+  // same blend between light stages as the shader, the hero stage keeps the last light colour
+  updateMarkerColor() {
+    const lightStage = Math.min(
+      Math.max(this.options.uStage.value, 0),
+      LAST_LIGHT_STAGE,
+    );
+    const stageIndex = Math.floor(lightStage);
+    const nextStageIndex = Math.min(stageIndex + 1, LAST_LIGHT_STAGE);
+    const stageProgress = lightStage - stageIndex;
+
+    const markerColor = this.markerColors[stageIndex]
+      .clone()
+      .lerp(this.markerColors[nextStageIndex], stageProgress);
+
+    const red = Math.round(markerColor.r * 255);
+    const green = Math.round(markerColor.g * 255);
+    const blue = Math.round(markerColor.b * 255);
+    const markerValue = `rgb(${red} ${green} ${blue})`;
+
+    if (markerValue === this.markerValue) return;
+
+    this.markerValue = markerValue;
+    document.documentElement.style.setProperty("--color-marker", markerValue);
   }
 
   destroy() {
+    document.documentElement.style.removeProperty("--color-marker");
     gsap.killTweensOf(this.canvas);
+    if (this.onMouseMove) {
+      window.removeEventListener("mousemove", this.onMouseMove);
+    }
     this.scene.backgroundNode = null;
   }
 }

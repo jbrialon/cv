@@ -10,20 +10,20 @@
     "id": "audemars-piguet",
     "order": 2,
     "name": "Audemars Piguet",
-    "role": "Lead Front-end & 3D Development"
+    "role": "Lead Front-End & 3D Development"
   },
   {
     "id": "vacheron-constantin",
     "order": 3,
     "name": "Vacheron Constantin",
-    "role": "Front-end Development"
+    "role": "Front-End Development"
   },
   {
     "id": "ulysse-nardin",
     "order": 4,
     "name": "Ulysse Nardin",
     "detail": "Diver",
-    "role": "Front-end & 3D Development"
+    "role": "Front-End & 3D Development"
   },
   {
     "id": "devenir",
