@@ -8,7 +8,7 @@ const projectEntries = (await getCollection("projects")).sort(
 const formatNumber = (value: number) => String(value).padStart(2, "0");
 ---
 
-<WindowFrame id="projects" label="Selected client projects" filename="selected-projects/" tone="feldgrau">
+<WindowFrame id="projects" label="Selected client projects" filename="selected-projects/" tone="sky">
   <Fragment slot="meta">{formatNumber(projectEntries.length)} items</Fragment>
 
   <div class="projects-body">
@@ -66,7 +66,7 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
   .projects-illustration {
     aspect-ratio: 4 / 3;
     border-top: 2px solid var(--color-ink);
-    background: var(--color-jasmine);
+    background: var(--color-paper);
   }
 
   @media (min-width: 40em) {

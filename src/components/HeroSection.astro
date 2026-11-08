@@ -6,11 +6,11 @@ import { profile } from '../data/profile';
 <header class="hero">
   <div class="hero-content">
     <h1 class="hero-name">{profile.name}</h1>
-    <p class="hero-role theme-dark">{profile.role}</p>
+    <p class="hero-role theme-light">{profile.role}</p>
   </div>
 
   <div class="hero-top-bar">
-    <ButtonLink href={`mailto:${profile.email}`}>{profile.email}</ButtonLink>
+    <ButtonLink href={`mailto:${profile.email}`} variant="light">{profile.email}</ButtonLink>
   </div>
 </header>
 
@@ -30,11 +30,11 @@ import { profile } from '../data/profile';
       position: absolute;
       inset: 0;
       z-index: var(--z-background);
-      background: var(--color-feldgrau);
+      background: linear-gradient(to bottom, var(--sky-8), var(--sky-7) 55%, var(--sky-6));
     }
 
     & :global(.button-link:focus-visible) {
-      outline-color: var(--color-jasmine);
+      outline-color: var(--color-on-dark);
     }
   }
 
@@ -54,8 +54,13 @@ import { profile } from '../data/profile';
     font-weight: 400;
     font-size: clamp(3.5rem, 10vw, 7rem);
     line-height: 0.95;
-    color: var(--color-jasmine);
+    color: var(--color-on-dark);
     overflow-wrap: anywhere;
+
+    &::selection {
+      background: var(--color-on-dark);
+      color: var(--color-ink);
+    }
   }
 
   .hero-role {
@@ -69,5 +74,15 @@ import { profile } from '../data/profile';
     top: 16px;
     right: 16px;
     z-index: var(--z-content);
+  }
+
+  @media print {
+    .hero::before {
+      display: none;
+    }
+
+    .hero-name {
+      color: var(--color-ink);
+    }
   }
 </style>

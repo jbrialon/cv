@@ -3,10 +3,10 @@ interface Props {
   id: string;
   label: string;
   filename: string;
-  tone?: "sheepskin" | "feldgrau";
+  tone?: "default" | "sky";
 }
 
-const { id, label, filename, tone = "sheepskin" } = Astro.props;
+const { id, label, filename, tone = "default" } = Astro.props;
 ---
 
 <section class="window-frame" id={id} aria-label={label}>
@@ -41,7 +41,7 @@ const { id, label, filename, tone = "sheepskin" } = Astro.props;
   }
 
   .window-title-bar {
-    --title-bar-background: var(--color-sheepskin);
+    --title-bar-background: var(--color-title-bar);
     --title-bar-text: var(--color-ink);
     --title-bar-muted: var(--color-ink-soft);
 
@@ -56,10 +56,10 @@ const { id, label, filename, tone = "sheepskin" } = Astro.props;
     font-size: 0.8125rem;
   }
 
-  .window-title-bar--feldgrau {
-    --title-bar-background: var(--color-feldgrau);
-    --title-bar-text: var(--color-paper);
-    --title-bar-muted: var(--color-paper);
+  .window-title-bar--sky {
+    --title-bar-background: var(--color-title-bar-alt);
+    --title-bar-text: var(--color-ink);
+    --title-bar-muted: var(--color-ink-soft);
   }
 
   .window-controls {

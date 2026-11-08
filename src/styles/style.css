@@ -20,7 +20,15 @@ html {
 }
 
 body {
-  background: var(--color-jasmine);
+  background: linear-gradient(
+    to bottom,
+    var(--sky-5),
+    var(--sky-4) 25%,
+    var(--sky-3) 45%,
+    var(--sky-2) 65%,
+    var(--sky-1) 85%,
+    var(--sky-0)
+  );
   color: var(--color-ink);
   font-family: var(--font-mono);
   line-height: 1.6;
@@ -28,8 +36,8 @@ body {
 }
 
 ::selection {
-  background: var(--color-forest);
-  color: var(--color-jasmine);
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
 a {
@@ -37,5 +45,12 @@ a {
 
   &:hover {
     color: var(--color-ink-soft);
+  }
+}
+
+@media print {
+  body {
+    background: white;
+    color: var(--color-ink);
   }
 }

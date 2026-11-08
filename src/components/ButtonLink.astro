@@ -4,13 +4,14 @@ import ExternalLinkIcon from '../icons/external-link.svg';
 interface Props {
   href: string;
   external?: boolean;
+  variant?: "dark" | "light";
 }
 
-const { href, external = false } = Astro.props;
+const { href, external = false, variant = "dark" } = Astro.props;
 ---
 
 <a
-  class="button-link theme-dark"
+  class:list={["button-link", `button-link--${variant}`, `theme-${variant}`]}
   href={href}
   target={external ? '_blank' : undefined}
   rel={external ? 'noopener noreferrer' : undefined}
@@ -39,7 +40,6 @@ const { href, external = false } = Astro.props;
       box-shadow 0.25s var(--ease-out-quart);
 
     &:hover {
-      color: var(--color-jasmine);
       transform: translateY(-4px) scale(1.04);
       box-shadow: 4px 6px 0 -1px var(--color-shadow);
     }
@@ -70,6 +70,14 @@ const { href, external = false } = Astro.props;
         transform: none;
       }
     }
+  }
+
+  .button-link--dark:hover {
+    color: var(--color-on-dark);
+  }
+
+  .button-link--light:hover {
+    color: var(--color-ink);
   }
 
   .button-link-icon {

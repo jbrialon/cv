@@ -9,7 +9,7 @@ import { skillGroups } from "../data/expertise";
       <h3 class="heading-3">{skillGroup.title}</h3>
       <ul class="skill-list" role="list">
         {skillGroup.skills.map((skill) => (
-          <li class:list={["skill-tag", `skill-tag--${skillGroup.emphasis}`, { "theme-dark": skillGroup.emphasis === "primary" }, "section-icon-trigger"]}>{skill}</li>
+          <li class:list={["skill-tag", { "theme-dark": skillGroup.emphasis === "primary" }, "section-icon-trigger"]}>{skill}</li>
         ))}
       </ul>
     </div>
@@ -32,13 +32,9 @@ import { skillGroups } from "../data/expertise";
 
   .skill-tag {
     padding: 6px 12px;
-    border: 1px solid var(--color-feldgrau);
+    border: 1px solid var(--color-ink);
     border-radius: 999px;
     font-size: 0.875rem;
     line-height: 1.4;
-  }
-
-  .skill-tag--primary {
-    border-color: var(--color-forest);
   }
 </style>

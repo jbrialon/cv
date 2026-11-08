@@ -25,6 +25,9 @@ export default class Renderer {
 
     await this.instance.init();
 
+    // fully transparent until the first frame, so the CSS sky gradient shows through
+    this.instance.setClearColor(0x000000, 0);
+
     THREE.ColorManagement.enabled = true;
     this.instance.outputColorSpace = THREE.SRGBColorSpace;
 

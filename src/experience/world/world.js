@@ -1,5 +1,5 @@
 import Experience from "../experience.js";
-import HeroPlane from "./hero-plane.js";
+import SkyBackground from "./sky-background.js";
 
 export default class World {
   constructor() {
@@ -7,7 +7,7 @@ export default class World {
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
 
-    this.heroPlane = new HeroPlane();
+    this.skyBackground = new SkyBackground();
 
     // Wait for resources to be loaded
     this.resources.on("ready", () => {
@@ -18,6 +18,6 @@ export default class World {
   }
 
   update() {
-    this.heroPlane.update();
+    this.skyBackground.update();
   }
 }

@@ -8,12 +8,27 @@
 }
 
 .theme-dark {
-  background: var(--color-forest);
-  color: var(--color-jasmine);
+  background: var(--color-ink);
+  color: var(--color-on-dark);
 
   &::selection,
   & ::selection {
-    background: var(--color-jasmine);
-    color: var(--color-forest);
+    background: var(--color-on-dark);
+    color: var(--color-ink);
+  }
+
+  @media print {
+    print-color-adjust: exact;
+  }
+}
+
+.theme-light {
+  background: var(--color-paper);
+  color: var(--color-ink);
+
+  &::selection,
+  & ::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
   }
 }
