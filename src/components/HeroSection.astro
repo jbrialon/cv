@@ -6,7 +6,7 @@ import { profile } from '../data/profile';
 <header class="hero">
   <div class="hero-content">
     <h1 class="hero-name">{profile.name}</h1>
-    <p class="hero-role theme-light">{profile.role}</p>
+    <p class="hero-role">{profile.role}</p>
   </div>
 
   <div class="hero-top-bar">
@@ -63,10 +63,16 @@ import { profile } from '../data/profile';
 
   .hero-role {
     padding: 8px 16px;
+    border: 1px solid rgb(253 238 223 / 0.35);
     border-radius: 999px;
     font-size: 0.9375rem;
-    background-color: var(--color-paper);
-    color: var(--sky-7);
+    background-color: rgb(253 238 223 / 0.08);
+    color: var(--color-on-dark);
+
+    &::selection {
+      background: var(--color-on-dark);
+      color: var(--color-ink);
+    }
   }
 
   .hero-top-bar {
@@ -77,12 +83,8 @@ import { profile } from '../data/profile';
   }
 
   @media print {
-    .hero::before {
+    .hero {
       display: none;
-    }
-
-    .hero-name {
-      color: var(--color-ink);
     }
   }
 </style>
