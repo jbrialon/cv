@@ -23,6 +23,6 @@ const BLOB_PALETTES = {
   },
 };
 
-export const DEFAULT_BLOB_PALETTE = "neighbours";
+export const DEFAULT_BLOB_PALETTE = "sunrise";
 
 export default BLOB_PALETTES;

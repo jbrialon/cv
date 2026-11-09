@@ -9,16 +9,16 @@ export const skillGroups: SkillGroup[] = [
     title: "Front-End",
     emphasis: "primary",
     skills: [
-      "TypeScript",
       "Vue 3 / Nuxt",
       "Astro",
+      "TypeScript",
       "Modern CSS",
       "Accessibility · WCAG 2.2",
-      "Design systems & tokens",
+      "Design Systems & Tokens",
       "Headless CMS",
       "GSAP",
       "Vite · Node.js · CI/CD",
-      "Code review & mentoring",
+      "Code Review & Mentoring",
     ],
   },
   {
@@ -27,6 +27,7 @@ export const skillGroups: SkillGroup[] = [
     skills: [
       "WebGPU",
       "Three.js",
+      "React Three Fiber",
       "Shaders · TSL / GLSL",
       "WebGL",
       "PixiJS",

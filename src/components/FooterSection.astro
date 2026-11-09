@@ -1,0 +1,170 @@
+---
+import ButtonLink from "./ButtonLink.astro";
+import ArrowRightIcon from "../icons/arrow-right.svg";
+import { profile } from "../data/profile";
+
+const externalLinks = profile.contactLinks.filter((contactLink) => contactLink.external);
+const buildYear = new Date().getFullYear();
+---
+
+<footer class="site-footer" aria-labelledby="footer-title">
+  <div class="footer-main">
+    <div class="footer-pitch">
+      <p class="footer-label">
+        <svg class="footer-marker" aria-hidden="true" width="12" height="12" viewBox="0 0 4 4" shape-rendering="crispEdges">
+          <rect width="2" height="2" fill="currentColor"></rect>
+          <rect x="2" y="2" width="2" height="2" fill="currentColor"></rect>
+        </svg>
+        contact.txt
+      </p>
+      <h2 class="footer-title" id="footer-title">Let's work together.</h2>
+      <p class="paragraph footer-availability">{profile.availability}</p>
+    </div>
+
+    <div class="footer-actions">
+      <ButtonLink href={`mailto:${profile.email}`}>{profile.email}</ButtonLink>
+      <ul class="footer-links" role="list">
+        {externalLinks.map((contactLink) => (
+          <li>
+            <ButtonLink href={contactLink.href} external variant="light">{contactLink.label}</ButtonLink>
+          </li>
+        ))}
+        {profile.resumeHref && (
+          <li>
+            <ButtonLink href={profile.resumeHref} variant="light">CV · PDF</ButtonLink>
+          </li>
+        )}
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-meta">
+    <span>© {buildYear} {profile.name} · {profile.location}</span>
+    <span class="footer-colophon">Built with Astro &amp; three.js (WebGPU)</span>
+    <a class="back-to-top" href="#">
+      Back to top
+      <ArrowRightIcon class="back-to-top-icon" width="12" height="12" aria-hidden="true" />
+    </a>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    z-index: var(--z-content);
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 96px 32px 32px;
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .footer-pitch {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .footer-label {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 0.875rem;
+    color: var(--color-ink-soft);
+  }
+
+  .footer-marker {
+    flex-shrink: 0;
+    color: var(--color-marker);
+  }
+
+  .footer-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(3rem, 8vw, 5rem);
+    line-height: 0.95;
+  }
+
+  .footer-availability {
+    max-width: 460px;
+    color: var(--color-ink-soft);
+  }
+
+  .footer-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-hairline);
+    font-size: 0.8125rem;
+    color: var(--color-ink-soft);
+  }
+
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    color: var(--color-ink-soft);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-ink);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-ink);
+      outline-offset: 2px;
+    }
+  }
+
+  .back-to-top-icon {
+    flex-shrink: 0;
+    transform: rotate(-90deg);
+  }
+
+  @media (min-width: 60em) {
+    .footer-main {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 48px;
+      align-items: end;
+    }
+  }
+
+  @media (max-width: 40em) {
+    .site-footer {
+      padding: 72px 16px 24px;
+    }
+  }
+
+  @media print {
+    .footer-actions,
+    .footer-colophon,
+    .back-to-top {
+      display: none;
+    }
+  }
+</style>

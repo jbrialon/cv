@@ -11,7 +11,7 @@ const { href, external = false, variant = "dark" } = Astro.props;
 ---
 
 <a
-  class:list={["button-link", `button-link--${variant}`, `theme-${variant}`]}
+  class:list={["button-link", `button-link--${variant}`, { "theme-dark": variant === "dark", "theme-light": variant === "light" }]}
   href={href}
   target={external ? '_blank' : undefined}
   rel={external ? 'noopener noreferrer' : undefined}
@@ -27,38 +27,44 @@ const { href, external = false, variant = "dark" } = Astro.props;
 
 <style>
   .button-link {
+    --button-shadow-color: var(--sky-7);
+    --button-shadow-offset: 3px;
+
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 8px 14px;
-    border-radius: 999px;
+    border: 1.5px solid var(--sky-7);
+    border-radius: 6px;
     font-size: 0.875rem;
     text-decoration: none;
-    box-shadow: 0 0 0 0 var(--color-shadow);
+    box-shadow: var(--button-shadow-offset) var(--button-shadow-offset) 0 var(--button-shadow-color);
     transition:
       transform 0.25s var(--ease-out-quart),
-      box-shadow 0.25s var(--ease-out-quart);
+      box-shadow 0.25s var(--ease-out-quart),
+      background-color 0.25s linear;
 
     &:hover {
-      transform: translateY(-4px) scale(1.04);
-      box-shadow: 4px 6px 0 -1px var(--color-shadow);
+      --button-shadow-offset: 5px;
+      transform: translate(-2px, -2px);
     }
 
     &:active {
-      transform: scale(0.97);
-      box-shadow: 1px 2px 0 -1px var(--color-shadow);
+      --button-shadow-offset: 0px;
+      transform: translate(2px, 2px);
       transition-duration: 0.08s;
     }
 
     &:focus-visible {
-      outline: 2px solid var(--color-ink);
-      outline-offset: 2px;
+      outline: 2px solid var(--color-paper);
+      outline-offset: 0;
+      box-shadow: 0 0 0 4px var(--sky-7);
     }
 
     @media (hover: none) {
       &:hover {
+        --button-shadow-offset: 3px;
         transform: none;
-        box-shadow: none;
       }
     }
 
@@ -72,12 +78,25 @@ const { href, external = false, variant = "dark" } = Astro.props;
     }
   }
 
-  .button-link--dark:hover {
+  /* night sky stamp with a navy shadow */
+  .button-link--dark {
+    background-color: var(--blob-sunrise-night-1);
     color: var(--color-on-dark);
+
+    &:hover {
+      color: var(--color-on-dark);
+    }
   }
 
-  .button-link--light:hover {
-    color: var(--color-ink);
+  /* paper stamp, shadow follows the live section marker colour */
+  .button-link--light {
+    --button-shadow-color: var(--button-accent, var(--color-marker));
+    background-color: var(--color-paper);
+    color: var(--sky-7);
+
+    &:hover {
+      color: var(--sky-7);
+    }
   }
 
   .button-link-icon {

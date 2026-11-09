@@ -12,6 +12,8 @@
   --blob-dawn-1: #e8b888;
   --blob-dawn-2: #b6b4c2;
 
+  --blob-sunrise-night-1: #334970;
+
   /* Roles */
   --color-ink: #222328;
   --color-ink-soft: #34403f;
@@ -23,4 +25,5 @@
   --color-shadow: #d17a6c;
   --color-title-bar: #e8b888;
   --color-title-bar-alt: #93b6c9;
+  --color-peach: #f5b595;
 }

@@ -16,6 +16,8 @@ import { profile } from '../data/profile';
 
 <style>
   .hero {
+    --button-accent: var(--color-peach);
+
     position: relative;
     display: flex;
     align-items: center;
@@ -31,10 +33,6 @@ import { profile } from '../data/profile';
       inset: 0;
       z-index: var(--z-background);
       background: linear-gradient(to bottom, var(--sky-8), var(--sky-7) 55%, var(--sky-6));
-    }
-
-    & :global(.button-link:focus-visible) {
-      outline-color: var(--color-on-dark);
     }
   }
 
@@ -67,6 +65,8 @@ import { profile } from '../data/profile';
     padding: 8px 16px;
     border-radius: 999px;
     font-size: 0.9375rem;
+    background-color: var(--color-paper);
+    color: var(--sky-7);
   }
 
   .hero-top-bar {

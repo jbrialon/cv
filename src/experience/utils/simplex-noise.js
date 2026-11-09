@@ -13,7 +13,6 @@ import {
 } from "three/tsl";
 
 // 3D simplex noise by Ashima Arts / Stefan Gustavson, returns roughly -1 to 1
-
 const permute = (value) => mod(value.mul(34.0).add(1.0).mul(value), 289.0);
 
 const taylorInverseSquareRoot = (value) =>
