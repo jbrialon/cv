@@ -90,6 +90,9 @@ export default class SkyBackground {
     // where the mouse really is, the hole slowly catches up with it
     this.pointerTarget = new Vector2(0.5, 0.5);
 
+    // the first frame jumps straight to the scroll position, the next ones ease towards it
+    this.hasStage = false;
+
     this.markerColors = MARKER_HEXES.map(toRawColor);
     this.markerValue = null;
 
@@ -184,11 +187,8 @@ export default class SkyBackground {
       const elapsed = this.experience.prefersReducedMotion ? float(0) : time;
       const noiseTime = elapsed.mul(0.3);
 
-      // 3 noise samples, slightly offset, averaged into soft blobs
-      const noise = simplexNoise3d(vec3(roundUv, noiseTime));
-      const noiseAhead = simplexNoise3d(vec3(roundUv.add(0.1), noiseTime));
-      const noiseBehind = simplexNoise3d(vec3(roundUv.sub(0.1), noiseTime));
-      const averageNoise = noise.add(noiseAhead).add(noiseBehind).div(3.0);
+      const noise = simplexNoise3d(vec3(roundUv.mul(0.8), noiseTime));
+      const blobNoise = noise.mul(0.8);
 
       // distance to the mouse, with y squashed so the hole stays round
       const toPointer = screenUV.sub(this.options.uPointer).toVar();
@@ -203,7 +203,7 @@ export default class SkyBackground {
       const blobHole = mix(1.0, cursorHole, this.options.uMouseInteraction);
 
       // negative noise is cut off, so only the peaks show up as blobs
-      const blobAmount = averageNoise.mul(blobHole).saturate();
+      const blobAmount = blobNoise.mul(blobHole).saturate();
 
       const blobColor = mix(
         blobTwoColor,
@@ -313,13 +313,26 @@ export default class SkyBackground {
         : 0;
 
     // top of the page is the hero stage (night), bottom is stage 0 (dawn)
-    this.options.uStage.value = HERO_STAGE * (1 - progress);
+    const targetStage = HERO_STAGE * (1 - progress);
+
+    // frames since the last one, counted at 60fps, so easing runs at the same speed on 120Hz screens
+    const frameCount = this.experience.time.delta / (1000 / 60);
+
+    // phones report scrollY in uneven steps, so the stage slowly catches up instead of jumping
+    if (this.isTouch && this.hasStage) {
+      const stageEasing = 1 - Math.pow(0.85, frameCount);
+      this.options.uStage.value +=
+        (targetStage - this.options.uStage.value) * stageEasing;
+    } else {
+      this.options.uStage.value = targetStage;
+    }
+    this.hasStage = true;
 
     this.updateMarkerColor();
 
-    // move 10% of the way to the mouse every 60fps frame, same speed on 120Hz screens
-    const easing = 1 - Math.pow(0.9, this.experience.time.delta / (1000 / 60));
-    this.options.uPointer.value.lerp(this.pointerTarget, easing);
+    // move 10% of the way to the mouse every 60fps frame
+    const pointerEasing = 1 - Math.pow(0.9, frameCount);
+    this.options.uPointer.value.lerp(this.pointerTarget, pointerEasing);
   }
 
   // same blend between light stages as the shader, the hero stage keeps the last light colour
