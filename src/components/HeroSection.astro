@@ -1,7 +1,7 @@
 ---
 import MailIcon from '../icons/mail.svg';
 import DownloadIcon from '../icons/download.svg';
-import ButtonLink from './ButtonLink.astro';
+import TextLink from './TextLink.astro';
 import { profile } from '../data/profile';
 ---
 
@@ -12,17 +12,17 @@ import { profile } from '../data/profile';
   </div>
 
   <nav class="hero-top-bar" aria-label="Contact">
-    <a class="hero-link" href={`mailto:${profile.email}`}>
+    <TextLink href={`mailto:${profile.email}`} tone="on-dark">
       <MailIcon class="hero-link-icon" width="12" height="12" aria-hidden="true" />
       <span class="hero-email-label">{profile.email}</span>
-    </a>
+    </TextLink>
     {profile.resumeHref && (
       <>
         <span class="hero-link-separator" aria-hidden="true">/</span>
-        <a class="hero-link" href={profile.resumeHref} download="Jeremy-Brialon-CV.pdf">
+        <TextLink href={profile.resumeHref} download="Jeremy-Brialon-CV.pdf" tone="on-dark">
           <DownloadIcon class="hero-link-icon" width="12" height="12" aria-hidden="true" />
           cv.pdf
-        </a>
+        </TextLink>
       </>
     )}
   </nav>
@@ -98,37 +98,6 @@ import { profile } from '../data/profile';
     align-items: center;
     gap: 14px;
     font-size: 0.875rem;
-  }
-
-  /* quiet mono links, a peach underline grows on hover */
-  .hero-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding-block: 4px;
-    color: var(--color-on-dark);
-    text-decoration: none;
-    background-image: linear-gradient(var(--color-peach), var(--color-peach));
-    background-repeat: no-repeat;
-    background-position: 0 100%;
-    background-size: 20px 2px;
-    transition:
-      background-size 0.45s var(--ease-out-quart),
-      color 0.25s linear;
-
-    &:hover {
-      color: var(--color-peach);
-      background-size: 100% 2px;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--color-on-dark);
-      outline-offset: 4px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      transition: none;
-    }
   }
 
   .hero-link-icon {

@@ -1,0 +1,66 @@
+---
+interface Props {
+  href: string;
+  external?: boolean;
+  download?: string;
+  tone?: "ink" | "on-dark";
+}
+
+const { href, external = false, download, tone = "ink" } = Astro.props;
+---
+
+<a
+  class:list={["text-link", `text-link--${tone}`]}
+  href={href}
+  download={download}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+>
+  <slot />
+  {external && <span class="visually-hidden"> (opens in a new tab)</span>}
+</a>
+
+<style>
+  /* quiet mono link, an accent underline grows on hover */
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding-block: 4px;
+    color: var(--text-link-color);
+    text-decoration: none;
+    background-image: linear-gradient(var(--text-link-accent), var(--text-link-accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 16px 2px;
+    transition:
+      background-size 0.45s var(--ease-out-quart),
+      color 0.25s linear;
+
+    &:hover {
+      color: var(--text-link-hover-color);
+      background-size: 100% 2px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--text-link-color);
+      outline-offset: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  .text-link--ink {
+    --text-link-color: var(--color-ink);
+    --text-link-hover-color: var(--sky-7);
+    --text-link-accent: var(--color-accent);
+  }
+
+  .text-link--on-dark {
+    --text-link-color: var(--color-on-dark);
+    --text-link-hover-color: var(--color-peach);
+    --text-link-accent: var(--color-peach);
+  }
+</style>

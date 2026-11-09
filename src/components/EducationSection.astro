@@ -13,7 +13,7 @@ const educationEntries = (await getCollection("education")).sort(
       <li class="paragraph education-item section-icon-trigger">
         <b>{diploma.degree}</b>
         <br />
-        {diploma.school} ·{" "}
+        {diploma.school} -{" "}
         <span class="education-years">
           <time datetime={String(diploma.startYear)}>{diploma.startYear}</time>–<time datetime={String(diploma.endYear)}>{diploma.endYear}</time>
         </span>

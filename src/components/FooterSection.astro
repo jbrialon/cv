@@ -1,5 +1,5 @@
 ---
-import ButtonLink from "./ButtonLink.astro";
+import TextLink from "./TextLink.astro";
 import ArrowRightIcon from "../icons/arrow-right.svg";
 import { profile } from "../data/profile";
 
@@ -7,40 +7,24 @@ const externalLinks = profile.contactLinks.filter((contactLink) => contactLink.e
 const buildYear = new Date().getFullYear();
 ---
 
-<footer class="site-footer" aria-labelledby="footer-title">
-  <div class="footer-main">
-    <div class="footer-pitch">
-      <p class="footer-label">
-        <svg class="footer-marker" aria-hidden="true" width="12" height="12" viewBox="0 0 4 4" shape-rendering="crispEdges">
-          <rect width="2" height="2" fill="currentColor"></rect>
-          <rect x="2" y="2" width="2" height="2" fill="currentColor"></rect>
-        </svg>
-        contact.txt
-      </p>
-      <h2 class="footer-title" id="footer-title">Let's work together.</h2>
-      <p class="paragraph footer-availability">{profile.availability}</p>
-    </div>
+<footer class="site-footer">
+  <div class="footer-meta">
+    <span>© {buildYear} {profile.name}</span>
 
-    <div class="footer-actions">
-      <ButtonLink href={`mailto:${profile.email}`}>{profile.email}</ButtonLink>
+    <nav aria-label="Contact">
       <ul class="footer-links" role="list">
+        <li><TextLink href={`mailto:${profile.email}`}>email</TextLink></li>
         {externalLinks.map((contactLink) => (
           <li>
-            <ButtonLink href={contactLink.href} external variant="light">{contactLink.label}</ButtonLink>
+            <TextLink href={contactLink.href} external>{contactLink.label.toLowerCase()}</TextLink>
           </li>
         ))}
         {profile.resumeHref && (
-          <li>
-            <ButtonLink href={profile.resumeHref} variant="light">CV · PDF</ButtonLink>
-          </li>
+          <li><TextLink href={profile.resumeHref} download="Jeremy-Brialon-CV.pdf">cv.pdf</TextLink></li>
         )}
       </ul>
-    </div>
-  </div>
+    </nav>
 
-  <div class="footer-meta">
-    <span>© {buildYear} {profile.name} · {profile.location}</span>
-    <span class="footer-colophon">Built with Astro &amp; three.js (WebGPU)</span>
     <a class="back-to-top" href="#">
       Back to top
       <ArrowRightIcon class="back-to-top-icon" width="12" height="12" aria-hidden="true" />
@@ -52,63 +36,9 @@ const buildYear = new Date().getFullYear();
   .site-footer {
     position: relative;
     z-index: var(--z-content);
-    display: flex;
-    flex-direction: column;
-    gap: 64px;
     max-width: 1040px;
     margin: 0 auto;
-    padding: 96px 32px 32px;
-  }
-
-  .footer-main {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 40px;
-  }
-
-  .footer-pitch {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .footer-label {
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-    font-size: 0.875rem;
-    color: var(--color-ink-soft);
-  }
-
-  .footer-marker {
-    flex-shrink: 0;
-    color: var(--color-marker);
-  }
-
-  .footer-title {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: clamp(3rem, 8vw, 5rem);
-    line-height: 0.95;
-  }
-
-  .footer-availability {
-    max-width: 460px;
-    color: var(--color-ink-soft);
-  }
-
-  .footer-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .footer-links {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    padding: 32px;
   }
 
   .footer-meta {
@@ -117,10 +47,15 @@ const buildYear = new Date().getFullYear();
     justify-content: space-between;
     align-items: center;
     gap: 8px 24px;
-    padding-top: 20px;
-    border-top: 1px solid var(--color-hairline);
     font-size: 0.8125rem;
     color: var(--color-ink-soft);
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
   }
 
   .back-to-top {
@@ -146,23 +81,19 @@ const buildYear = new Date().getFullYear();
     transform: rotate(-90deg);
   }
 
-  @media (min-width: 60em) {
-    .footer-main {
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 48px;
-      align-items: end;
-    }
-  }
-
   @media (max-width: 40em) {
     .site-footer {
-      padding: 72px 16px 24px;
+      padding: 96px 16px 24px;
+    }
+
+    .footer-meta {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 
   @media print {
-    .footer-actions,
-    .footer-colophon,
+    .site-footer nav,
     .back-to-top {
       display: none;
     }
