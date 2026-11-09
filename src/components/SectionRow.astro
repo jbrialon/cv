@@ -25,7 +25,18 @@ const headingId = `${id}-title`;
     grid-template-columns: minmax(0, 1fr);
     gap: 32px;
     padding: 64px 0;
+    border-top: 1px solid var(--color-hairline);
     border-bottom: 1px solid var(--color-hairline);
+
+    /* the first row (Profile) breathes away from the hero */
+    &:first-child {
+      margin-top: 96px;
+    }
+
+    /* two rows in a row share one hairline */
+    & + & {
+      border-top: 0;
+    }
   }
 
   .section-title {

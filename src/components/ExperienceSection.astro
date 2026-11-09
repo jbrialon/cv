@@ -67,11 +67,6 @@ const lastYear = experienceEntries.reduce(
       padding-top: 32px;
       border-top: 1px solid var(--color-hairline);
     }
-
-    &:last-child {
-      padding-bottom: 32px;
-      border-bottom: 1px solid var(--color-hairline);
-    }
   }
 
   .experience-meta {
@@ -103,9 +98,15 @@ const lastYear = experienceEntries.reduce(
     flex-direction: column;
     gap: 10px;
 
+
     li {
       display: flex;
       gap: 12px;
+      padding-bottom: 12px;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
 
       &::before {
         content: ">";
