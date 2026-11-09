@@ -12,27 +12,30 @@ export default class Sizes extends EventEmitter {
     this.resize = this.resize.bind(this);
     window.addEventListener("resize", this.resize);
 
-    this.adjustViewportHeight();
     this.resize();
   }
   /**
    * Resize
    */
   resize() {
-    this.adjustViewportHeight();
     const containerBounds = this.targetElement.getBoundingClientRect();
+    const width = Math.floor(containerBounds.width);
+    const height = Math.floor(containerBounds.height);
+    const pixelRatio = Math.min(window.devicePixelRatio, 2);
 
-    this.width = Math.floor(containerBounds.width);
-    this.height = Math.floor(containerBounds.height);
+    // Safari fires resize when its toolbar hides, but the 100lvh canvas keeps its size, so skip the costly resize
+    if (
+      width === this.width &&
+      height === this.height &&
+      pixelRatio === this.pixelRatio
+    ) {
+      return;
+    }
 
-    this.pixelRatio = Math.min(window.devicePixelRatio, 2);
+    this.width = width;
+    this.height = height;
+    this.pixelRatio = pixelRatio;
 
     this.trigger("resize");
-  }
-
-  adjustViewportHeight() {
-    const viewportHeight = window.innerHeight;
-    // Set the value in a custom property to be used in CSS
-    document.documentElement.style.setProperty("--vh", `${viewportHeight}px`);
   }
 }

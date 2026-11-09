@@ -306,7 +306,7 @@ export default class SkyBackground {
 
   update() {
     const scrollableHeight =
-      document.documentElement.scrollHeight - window.innerHeight;
+      document.documentElement.scrollHeight - this.experience.sizes.height;
     const progress =
       scrollableHeight > 0
         ? Math.min(Math.max(window.scrollY / scrollableHeight, 0), 1)
