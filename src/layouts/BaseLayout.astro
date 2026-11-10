@@ -16,9 +16,9 @@ const { title } = Astro.props;
     <meta name="description" content="TODO" />
     <meta name="theme-color" content="#222328" />
     <Font cssVariable="--font-mono" preload={[{ weight: 400 }, { weight: 600 }]} />
-    <Font cssVariable="--font-serif" />
+    <Font cssVariable="--font-serif" preload />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>

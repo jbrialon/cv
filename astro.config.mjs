@@ -14,6 +14,7 @@ export default defineConfig({
       weights: [400, 500, 600],
       styles: ["normal"],
       subsets: ["latin"],
+      display: "block",
       fallbacks: ["ui-monospace", "monospace"],
     },
     {
@@ -23,6 +24,7 @@ export default defineConfig({
       weights: [400],
       styles: ["normal"],
       subsets: ["latin"],
+      display: "block",
       fallbacks: ["Georgia", "serif"],
     },
   ],
