@@ -4,7 +4,7 @@ import ButtonLink from './ButtonLink.astro';
 import { profile } from '../data/profile';
 ---
 
-<SectionRow title="Profile" id="profile">
+<SectionRow title="Profile" id="profile" icon="sphere">
   <div class="profile-column">
     <h3 class="heading-3">{profile.headline}</h3>
     {profile.summary.map((paragraph) => <p class="paragraph">{paragraph}</p>)}

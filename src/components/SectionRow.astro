@@ -1,19 +1,33 @@
 ---
+import SphereIcon from '../icons/section-sphere.svg';
+import PyramidIcon from '../icons/section-pyramid.svg';
+import StairsIcon from '../icons/section-stairs.svg';
+
+const sectionIcons = { sphere: SphereIcon, pyramid: PyramidIcon, stairs: StairsIcon };
+
 interface Props {
   title: string;
   id: string;
+  icon?: keyof typeof sectionIcons;
 }
 
-const { title, id } = Astro.props;
+const { title, id, icon } = Astro.props;
 const headingId = `${id}-title`;
+const SectionIcon = icon ? sectionIcons[icon] : undefined;
 ---
 
 <section class="section-row" id={id} aria-labelledby={headingId}>
   <h2 class="heading-2 section-title" id={headingId}>
-    <svg aria-hidden="true" width="12" height="12" viewBox="0 0 4 4" shape-rendering="crispEdges">
-      <rect width="2" height="2" fill="currentColor"></rect>
-      <rect x="2" y="2" width="2" height="2" fill="currentColor"></rect>
-    </svg>
+    {SectionIcon ? (
+      <span class="section-icon" data-icon={icon}>
+        <SectionIcon width="20" height="20" aria-hidden="true" />
+      </span>
+    ) : (
+      <svg class="section-marker" aria-hidden="true" width="12" height="12" viewBox="0 0 4 4" shape-rendering="crispEdges">
+        <rect width="2" height="2" fill="currentColor"></rect>
+        <rect x="2" y="2" width="2" height="2" fill="currentColor"></rect>
+      </svg>
+    )}
     {title}
   </h2>
   <slot />
@@ -28,12 +42,10 @@ const headingId = `${id}-title`;
     border-top: 1px solid var(--color-hairline);
     border-bottom: 1px solid var(--color-hairline);
 
-    /* the first row (Profile) breathes away from the hero */
     &:first-child {
       margin-top: 96px;
     }
 
-    /* two rows in a row share one hairline */
     & + & {
       border-top: 0;
     }
@@ -43,22 +55,87 @@ const headingId = `${id}-title`;
     display: flex;
     gap: 12px;
     align-items: baseline;
+  }
 
-    svg {
-      color: var(--color-marker);
-      flex-shrink: 0;
-      transition: transform 0.4s var(--ease-out-quart);
+  .section-marker,
+  .section-icon {
+    flex-shrink: 0;
+    color: var(--color-marker);
+  }
+
+  .section-marker {
+    transition: transform 0.4s var(--ease-out-quart);
+  }
+
+  .section-icon {
+    position: relative;
+    top: 2px;
+    margin-right: -4px;
+    line-height: 0;
+
+    :global(svg) {
+      overflow: visible;
+    }
+
+    :global(g) {
+      transform-box: fill-box;
+    }
+
+    &[data-icon="sphere"] {
+      top: 3px;
+      scale: 0.9;
     }
   }
 
-  .section-row:has(:global(.button-link:hover, .button-link:focus-visible, .section-icon-trigger:hover)) .section-title svg {
-    transform: rotate(90deg);
+  @media (prefers-reduced-motion: no-preference) {
+    .section-row:is(:hover, :focus-within) .section-marker {
+      transform: rotate(90deg);
+    }
+
+    /* profile: the sphere bounces */
+    .section-row:is(:hover, :focus-within) [data-icon="sphere"] :global(.icon-sphere) {
+      transform-origin: 50% 100%;
+      animation: icon-bounce 0.8s var(--ease-out-quart);
+    }
+
+    .section-row:is(:hover, :focus-within) [data-icon="pyramid"] :global(.icon-tier) {
+      animation: icon-stack 0.5s var(--ease-out-quart) both;
+    }
+
+    .section-row:is(:hover, :focus-within) [data-icon="pyramid"] :global(.icon-tier--1) {
+      animation-delay: 0.12s;
+    }
+
+    .section-row:is(:hover, :focus-within) [data-icon="pyramid"] :global(.icon-tier--0) {
+      animation-delay: 0.24s;
+    }
+
+    /* education: the steps rise one after the other */
+    .section-row:is(:hover, :focus-within) [data-icon="stairs"] :global(.icon-step) {
+      animation: icon-climb 0.45s var(--ease-out-quart) both;
+    }
+
+    .section-row:is(:hover, :focus-within) [data-icon="stairs"] :global(.icon-step--1) {
+      animation-delay: 0.12s;
+    }
+
+    .section-row:is(:hover, :focus-within) [data-icon="stairs"] :global(.icon-step--2) {
+      animation-delay: 0.24s;
+    }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .section-title svg {
-      transition: none;
-    }
+  @keyframes icon-bounce {
+    15% { transform: scale(1.12, 0.88); }
+    45% { transform: translateY(-3px) scale(0.94, 1.06); }
+    70% { transform: scale(1.06, 0.94); }
+  }
+
+  @keyframes icon-stack {
+    from { opacity: 0; transform: translateY(-3px); }
+  }
+
+  @keyframes icon-climb {
+    from { opacity: 0.25; transform: translateY(2px); }
   }
 
   @media (min-width: 40em) {

@@ -7,7 +7,7 @@ const educationEntries = (await getCollection("education")).sort(
 );
 ---
 
-<SectionRow title="Education" id="education">
+<SectionRow title="Education" id="education" icon="stairs">
   <ul class="education-list" role="list">
     {educationEntries.map(({ data: diploma }) => (
       <li class="paragraph education-item section-icon-trigger">
