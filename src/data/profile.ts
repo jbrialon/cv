@@ -5,6 +5,7 @@ export interface Profile {
   email: string;
   availability: string;
   resumeHref?: string;
+  resumeFilename?: string;
   headline: string;
   summary: string[];
   contactLinks: ContactLink[];
@@ -24,6 +25,7 @@ export const profile: Profile = {
   availability:
     "Open to senior front-end and immersive development roles around Annecy and Geneva.",
   resumeHref: "/jeremy-brialon-cv-en.pdf",
+  resumeFilename: "jeremy-brialon-cv-en.pdf",
   headline: "Front-End & Immersive Experiences",
   summary: [
     "Senior front-end developer with 10+ years building websites for watchmaking and luxury brands and the immersive, real-time 3D experiences that go with them.",
