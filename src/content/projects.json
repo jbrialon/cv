@@ -4,32 +4,39 @@
     "order": 1,
     "name": "Chopard",
     "detail": "3D Viewer",
-    "role": "Lead 3D Development & Asset Pipeline"
+    "role": "3D Development & Asset Pipeline",
+    "summary": "The client's 3D models came in mixed formats and sizes. Wrote a Blender + glTF-Transform pipeline to process 60+ watches in batch, down to around 6 MB each. Built the three.js viewer, ready to plug into the CMS, with custom shaders for the diamonds and physics for the moving parts."
   },
   {
     "id": "audemars-piguet",
     "order": 2,
     "name": "Audemars Piguet",
-    "role": "Lead Front-End & 3D Development"
+    "detail": "Musée Atelier & brand site",
+    "role": "Front-End Lead & 3D Development",
+    "summary": "Two sites sharing one style guide: the Musée Atelier website, with a homepage animated in three.js, and the main brand site. Worked with the designers on the 3D parts and adapted them to the constraints of the CMS."
   },
   {
     "id": "vacheron-constantin",
     "order": 3,
     "name": "Vacheron Constantin",
-    "role": "Front-End Development"
-  },
-  {
-    "id": "ulysse-nardin",
-    "order": 4,
-    "name": "Ulysse Nardin",
-    "detail": "Diver",
-    "role": "Front-End & 3D Development"
+    "role": "Front-End Architecture",
+    "summary": "Set up the front-end architecture of the brand site. It's still in use two redesigns later, and was reused for Baume & Mercier (Richemont) and Audemars Piguet. Earlier, built heavily animated single-page experiences for new watch and collection launches."
   },
   {
     "id": "devenir",
-    "order": 5,
+    "order": 4,
     "name": "Devenir",
-    "role": "3D / Unreal Engine Development",
+    "detail": "Brain-controlled game",
+    "role": "Unreal Engine & BCI Development",
+    "summary": "A two-level video game played with the mind, with a brain-computer interface (BCI) headset as the controller. Built the Unreal Engine game and its connection to the BCI through a Socket.IO server, in two months, for a booth at Digital Festival Zurich. It was shown again at OMR 23 and at Merkle events.",
     "award": "W3 Best in Show + Webby People's Voice"
+  },
+  {
+    "id": "hublot",
+    "order": 5,
+    "name": "Hublot",
+    "detail": "Strap configurator",
+    "role": "Front-End Development & Maintenance",
+    "summary": "Vue.js app for configuring watch straps, integrated with Hublot's Magento e-commerce. Built it, then maintained it over time."
   }
 ]

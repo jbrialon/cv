@@ -1,11 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 import WindowFrame from "./WindowFrame.astro";
+import RosetteIcon from "../icons/award-rosette.svg";
 
 const projectEntries = (await getCollection("projects")).sort(
   (firstEntry, secondEntry) => firstEntry.data.order - secondEntry.data.order,
 );
 const formatNumber = (value: number) => String(value).padStart(2, "0");
+// Awards on two lines 
+const splitAwards = (award: string) => award.split(/\s*\+\s*/);
 ---
 
 <WindowFrame id="projects" label="Selected client projects" filename="selected-projects/" tone="sky">
@@ -15,8 +18,22 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
     {projectEntries.map(({ data: project }) => (
       <li class="project-item">
         <span class="project-number">{formatNumber(project.order)}</span>
-        <span><b>{project.name}</b>{project.detail && `, ${project.detail}`}</span>
-        <span class="project-role">{project.role}{project.award && ` (${project.award})`}</span>
+        <div class="project-meta">
+          <h3 class="project-name">
+            <b>{project.name}</b>
+            {project.detail && <span class="project-detail">{project.detail}</span>}
+          </h3>
+          <p class="project-role">{project.role}</p>
+          {project.award && (
+            <div class="project-awards">
+              <RosetteIcon class="project-rosette" width="20" height="24" aria-hidden="true" />
+              <ul role="list" aria-label="Awards">
+                {splitAwards(project.award).map((awardName) => <li>{awardName}</li>)}
+              </ul>
+            </div>
+          )}
+        </div>
+        {project.summary && <p class="paragraph project-summary">{project.summary}</p>}
       </li>
     ))}
   </ol>
@@ -26,24 +43,92 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
   .projects-list {
     list-style: none;
     margin: 24px;
-    border-bottom: 1px solid var(--color-ink);
   }
 
   .project-item {
     display: grid;
-    grid-template-columns: 32px minmax(0, 1fr);
+    grid-template-columns: 48px minmax(0, 1fr);
     column-gap: 16px;
-    padding: 12px 0;
-    border-top: 1px solid var(--color-ink);
+    row-gap: 14px;
+    padding: 32px 0;
+
+    & + & {
+      border-top: 1px solid var(--color-hairline);
+    }
+
+    &:first-child {
+      padding-top: 8px;
+    }
+
+    &:last-child {
+      padding-bottom: 8px;
+    }
   }
 
-  .project-number,
+  /* mono, set large and light so it still reads as a margin index */
+  .project-number {
+    grid-row: 1 / span 2;
+    font-size: 1.5rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-marker);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* name, then what it is, then the role: three lines, same rhythm everywhere */
+  .project-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .project-name {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+
+    b {
+      font-weight: 600;
+    }
+  }
+
   .project-role {
+    font-size: 0.875rem;
+    line-height: 1.5;
     color: var(--color-ink-soft);
   }
 
-  .project-role {
+  .project-summary {
     grid-column: 2;
+    max-width: 62ch;
+    text-wrap: pretty;
+  }
+
+  /* one pixel rosette for the whole award block */
+  .project-awards {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+  }
+
+  .project-rosette {
+    flex-shrink: 0;
+    color: var(--color-accent);
+    shape-rendering: crispEdges;
   }
 
   @media (min-width: 40em) {
@@ -54,12 +139,17 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
 
   @media (min-width: 60em) {
     .project-item {
-      grid-template-columns: 48px minmax(0, 1fr) minmax(0, 1.4fr);
-      align-items: baseline;
+      grid-template-columns: 72px minmax(0, 1fr) minmax(0, 1.6fr);
+      column-gap: 0;
     }
 
-    .project-role {
-      grid-column: auto;
+    .project-meta {
+      padding-right: 32px;
+    }
+
+    .project-summary {
+      grid-column: 3;
+      grid-row: 1;
     }
   }
 </style>

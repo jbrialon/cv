@@ -21,6 +21,7 @@ const projects = defineCollection({
     name: z.string(),
     detail: z.string().optional(),
     role: z.string(),
+    summary: z.string().optional(),
     award: z.string().optional(),
   }),
 });
