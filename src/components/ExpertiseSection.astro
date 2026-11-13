@@ -43,4 +43,22 @@ import { skillGroups } from "../data/expertise";
       color: var(--color-on-dark);
     }
   }
+
+  @media print {
+    .skill-group {
+      gap: 16px;
+    }
+
+    .skill-list {
+      gap: 12px;
+    }
+
+    .skill-tag,
+    .skill-tag.theme-dark {
+      padding: 2px 8px;
+      border: 1px solid var(--color-hairline);
+      background: none;
+      color: var(--color-ink);
+    }
+  }
 </style>

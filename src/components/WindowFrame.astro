@@ -6,6 +6,8 @@ interface Props {
   tone?: "default" | "sky";
 }
 
+import SectionMarker from "./SectionMarker.astro";
+
 const { id, label, filename, tone = "default" } = Astro.props;
 ---
 
@@ -19,6 +21,7 @@ const { id, label, filename, tone = "default" } = Astro.props;
     <span>{filename}</span>
     {Astro.slots.has("meta") && <span class="window-meta"><slot name="meta" /></span>}
   </div>
+  <h2 class="heading-2 window-print-title"><SectionMarker />{label}</h2>
   <slot />
 </section>
 
@@ -81,9 +84,44 @@ const { id, label, filename, tone = "default" } = Astro.props;
     color: var(--title-bar-muted);
   }
 
+  .window-print-title {
+    display: none;
+  }
+
   @media (min-width: 40em) {
     .window-frame {
       box-shadow: 8px 8px 0 var(--color-ink);
+    }
+  }
+
+  @media print {
+    .window-frame {
+      margin: 32px 0 0;
+      padding-top: 36px;
+      border: 0;
+      border-top: 1px solid var(--print-rule);
+      background: none;
+      box-shadow: none;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .window-title-bar {
+      display: none;
+    }
+
+    .window-print-title {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 28px;
+
+      :global(.section-marker) {
+        flex-shrink: 0;
+        color: var(--print-accent);
+      }
     }
   }
 </style>

@@ -50,10 +50,3 @@ a {
     color: var(--color-ink-soft);
   }
 }
-
-@media print {
-  body {
-    background: white;
-    color: var(--color-ink);
-  }
-}

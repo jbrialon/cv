@@ -1,0 +1,39 @@
+@media print {
+  :root {
+    --print-accent: var(--sky-6);
+    --print-rule: rgb(84 117 152 / 0.4);
+    --print-rule-soft: rgb(84 117 152 / 0.15);
+  }
+
+  @page {
+    size: A4;
+    margin: 14mm 16mm;
+  }
+
+  /* every rem font size shrinks with it, sized for paper */
+  html {
+    font-size: 11px;
+  }
+
+  body {
+    background: white;
+    color: var(--color-ink);
+    line-height: 1.5;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  /* projects always open page 2 */
+  #projects {
+    break-before: page;
+    margin-top: 0;
+    border-top: 0;
+  }
+}

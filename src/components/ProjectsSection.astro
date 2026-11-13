@@ -7,33 +7,39 @@ const projectEntries = (await getCollection("projects")).sort(
   (firstEntry, secondEntry) => firstEntry.data.order - secondEntry.data.order,
 );
 const formatNumber = (value: number) => String(value).padStart(2, "0");
-// Awards on two lines 
-const splitAwards = (award: string) => award.split(/\s*\+\s*/);
+const formatAwards = (award: string) => award.split(/\s*\+\s*/).join(" - ");
 ---
 
-<WindowFrame id="projects" label="Selected client projects" filename="selected-projects/" tone="sky">
+<WindowFrame id="projects" label="Selected client projects" filename="selected-projects" tone="sky">
   <Fragment slot="meta">{formatNumber(projectEntries.length)} items</Fragment>
-
   <ol class="projects-list" role="list">
-    {projectEntries.map(({ data: project }) => (
+    {projectEntries.map(({ id, data: project }) => (
       <li class="project-item">
-        <span class="project-number">{formatNumber(project.order)}</span>
-        <div class="project-meta">
-          <h3 class="project-name">
-            <b>{project.name}</b>
-            {project.detail && <span class="project-detail">{project.detail}</span>}
-          </h3>
-          <p class="project-role">{project.role}</p>
+        <div
+          class="project-thumb"
+          style={`--ink-one: ${project.inks[0]}; --ink-two: ${project.inks[1]}`}
+          aria-hidden="true"
+        >
+          <span class="project-thumb-file">{id}</span>
+          <span class="project-thumb-number">{formatNumber(project.order)}</span>
+        </div>
+
+        <div class="project-text">
+          <div class="project-head">
+            <h3 class="project-name">
+              <b>{project.name}</b>
+              {project.detail && <span>{project.detail}</span>}
+            </h3>
+            <p class="project-role">{project.role}</p>
+          </div>
+          {project.summary && <p class="paragraph project-summary">{project.summary}</p>}
           {project.award && (
-            <div class="project-awards">
-              <RosetteIcon class="project-rosette" width="20" height="24" aria-hidden="true" />
-              <ul role="list" aria-label="Awards">
-                {splitAwards(project.award).map((awardName) => <li>{awardName}</li>)}
-              </ul>
-            </div>
+            <p class="project-award">
+              <RosetteIcon class="project-rosette" width="15" height="18" aria-hidden="true" />
+              <span><span class="visually-hidden">Awards: </span>{formatAwards(project.award)}</span>
+            </p>
           )}
         </div>
-        {project.summary && <p class="paragraph project-summary">{project.summary}</p>}
       </li>
     ))}
   </ol>
@@ -47,40 +53,76 @@ const splitAwards = (award: string) => award.split(/\s*\+\s*/);
 
   .project-item {
     display: grid;
-    grid-template-columns: 48px minmax(0, 1fr);
-    column-gap: 16px;
-    row-gap: 14px;
-    padding: 32px 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding: 28px 0;
 
     & + & {
       border-top: 1px solid var(--color-hairline);
     }
 
     &:first-child {
-      padding-top: 8px;
+      padding-top: 0;
     }
 
     &:last-child {
-      padding-bottom: 8px;
+      padding-bottom: 0;
     }
   }
 
-  /* mono, set large and light so it still reads as a margin index */
-  .project-number {
-    grid-row: 1 / span 2;
-    font-size: 1.5rem;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--color-marker);
-    font-variant-numeric: tabular-nums;
+  .project-thumb {
+    position: relative;
+    overflow: hidden;
+    align-self: start;
+    aspect-ratio: 4 / 3;
+    border: 1.5px solid var(--color-ink);
+    background:
+      radial-gradient(circle at 28% 32%, var(--ink-one) 0 22%, transparent 56%),
+      radial-gradient(circle at 74% 70%, var(--ink-two) 0 20%, transparent 58%),
+      var(--color-paper);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      mix-blend-mode: multiply;
+      opacity: 0.4;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+    }
+
+    @media print {
+      print-color-adjust: exact;
+    }
   }
 
-  /* name, then what it is, then the role: three lines, same rhythm everywhere */
-  .project-meta {
+  .project-thumb-file {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    font-size: 0.6875rem;
+  }
+
+  .project-thumb-number {
+    position: absolute;
+    right: 10px;
+    bottom: 2px;
+    font-size: 2.5rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .project-text {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: 14px;
+  }
+
+  /* name, then what it is, then the role */
+  .project-head {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
   .project-name {
@@ -97,38 +139,25 @@ const splitAwards = (award: string) => award.split(/\s*\+\s*/);
 
   .project-role {
     font-size: 0.875rem;
-    line-height: 1.5;
     color: var(--color-ink-soft);
   }
 
   .project-summary {
-    grid-column: 2;
-    max-width: 62ch;
+    max-width: 64ch;
     text-wrap: pretty;
   }
 
-  /* one pixel rosette for the whole award block */
-  .project-awards {
-    display: flex;
+  .project-award {
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 12px;
-
-    ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      line-height: 1.4;
-    }
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .project-rosette {
     flex-shrink: 0;
     color: var(--color-accent);
-    shape-rendering: crispEdges;
   }
 
   @media (min-width: 40em) {
@@ -137,19 +166,42 @@ const splitAwards = (award: string) => award.split(/\s*\+\s*/);
     }
   }
 
-  @media (min-width: 60em) {
+  @media (min-width: 50em) {
     .project-item {
-      grid-template-columns: 72px minmax(0, 1fr) minmax(0, 1.6fr);
-      column-gap: 0;
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 32px;
+    }
+  }
+
+  @media print {
+    .projects-list {
+      margin: 0;
     }
 
-    .project-meta {
-      padding-right: 32px;
+    .project-item {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 26px 0;
+      break-inside: avoid;
+
+      & + & {
+        border-top-color: var(--print-rule-soft);
+      }
+    }
+
+    .project-thumb {
+      display: none;
+    }
+
+    .project-text {
+      gap: 12px;
     }
 
     .project-summary {
-      grid-column: 3;
-      grid-row: 1;
+      max-width: none;
+    }
+
+    .project-rosette {
+      display: none;
     }
   }
 </style>

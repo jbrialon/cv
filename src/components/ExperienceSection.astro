@@ -20,7 +20,7 @@ const lastYear = experienceEntries.reduce(
 );
 ---
 
-<WindowFrame id="experience" label="Experience" filename="experience.json">
+<WindowFrame id="experience" label="Experience" filename="experience">
   <span slot="meta" class="year-range">
     {firstYear}
     <ArrowRightIcon class="year-range-arrow" width="12" height="12" aria-hidden="true" />
@@ -124,6 +124,39 @@ const lastYear = experienceEntries.reduce(
     .experience-entry {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
       gap: 40px;
+    }
+  }
+
+  @media print {
+    .experience-body {
+      gap: 24px;
+      padding: 0;
+    }
+
+    .experience-entry {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+      gap: 32px;
+      break-inside: avoid;
+
+      & + & {
+        padding-top: 24px;
+      }
+    }
+
+    .experience-meta {
+      gap: 8px;
+    }
+
+    .experience-highlights {
+      gap: 18px;
+
+      li {
+        padding-bottom: 0;
+
+        &::before {
+          color: var(--print-accent);
+        }
+      }
     }
   }
 </style>

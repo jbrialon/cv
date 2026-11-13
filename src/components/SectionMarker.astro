@@ -1,0 +1,12 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg class:list={["section-marker", className]} aria-hidden="true" width="12" height="12" viewBox="0 0 4 4" shape-rendering="crispEdges">
+  <rect width="2" height="2" fill="currentColor"></rect>
+  <rect x="2" y="2" width="2" height="2" fill="currentColor"></rect>
+</svg>

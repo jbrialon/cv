@@ -1,0 +1,62 @@
+---
+import { profile } from "../data/profile";
+
+const toReadableUrl = (href: string) => href.replace(/^https:\/\/(www\.)?/, "").replace(/\/$/, "");
+---
+
+<header class="print-header">
+  <h1 class="print-name">{profile.name}</h1>
+  <p class="print-role">{profile.role}</p>
+  <ul class="print-contact" role="list">
+    <li>{profile.location}</li>
+    <li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+    {profile.contactLinks.map((contactLink) => (
+      <li>
+        <a href={contactLink.href}>
+          {contactLink.external ? toReadableUrl(contactLink.href) : contactLink.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</header>
+
+<style>
+  .print-header {
+    display: none;
+  }
+
+  @media print {
+    .print-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 52px;
+      border-bottom: 1px solid var(--print-accent);
+    }
+
+    .print-name {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 2.75rem;
+      line-height: 1;
+      color: var(--sky-7);
+    }
+
+    .print-role {
+      font-size: 1.125rem;
+    }
+
+    .print-contact {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 20px;
+      margin-top: 8px;
+      font-size: 0.875rem;
+
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+</style>

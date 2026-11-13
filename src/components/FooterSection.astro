@@ -20,7 +20,7 @@ const buildYear = new Date().getFullYear();
           </li>
         ))}
         {profile.resumeHref && (
-          <li><TextLink href={profile.resumeHref} download="Jeremy-Brialon-CV.pdf">cv.pdf</TextLink></li>
+          <li><TextLink href={profile.resumeHref} download="Jeremy-Brialon-CV-EN.pdf">cv.pdf</TextLink></li>
         )}
       </ul>
     </nav>
@@ -93,8 +93,7 @@ const buildYear = new Date().getFullYear();
   }
 
   @media print {
-    .site-footer nav,
-    .back-to-top {
+    .site-footer {
       display: none;
     }
   }

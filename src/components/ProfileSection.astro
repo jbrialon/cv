@@ -42,4 +42,15 @@ import { profile } from '../data/profile';
     flex-wrap: wrap;
     gap: 8px;
   }
+
+  @media print {
+    .profile-column {
+      grid-column: 1 / -1;
+      gap: 16px;
+    }
+
+    .profile-column + .profile-column {
+      display: none;
+    }
+  }
 </style>

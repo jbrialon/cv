@@ -23,6 +23,7 @@ const projects = defineCollection({
     role: z.string(),
     summary: z.string().optional(),
     award: z.string().optional(),
+    inks: z.tuple([z.string(), z.string()]).default(["#93b6c9", "#f5b595"]),
   }),
 });
 

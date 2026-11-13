@@ -2,6 +2,7 @@
 import SphereIcon from '../icons/section-sphere.svg';
 import PyramidIcon from '../icons/section-pyramid.svg';
 import StairsIcon from '../icons/section-stairs.svg';
+import SectionMarker from './SectionMarker.astro';
 
 const sectionIcons = { sphere: SphereIcon, pyramid: PyramidIcon, stairs: StairsIcon };
 
@@ -23,10 +24,7 @@ const SectionIcon = icon ? sectionIcons[icon] : undefined;
         <SectionIcon width="20" height="20" aria-hidden="true" />
       </span>
     ) : (
-      <svg class="section-marker" aria-hidden="true" width="12" height="12" viewBox="0 0 4 4" shape-rendering="crispEdges">
-        <rect width="2" height="2" fill="currentColor"></rect>
-        <rect x="2" y="2" width="2" height="2" fill="currentColor"></rect>
-      </svg>
+      <SectionMarker />
     )}
     {title}
   </h2>
@@ -57,13 +55,13 @@ const SectionIcon = icon ? sectionIcons[icon] : undefined;
     align-items: baseline;
   }
 
-  .section-marker,
+  .section-title :global(.section-marker),
   .section-icon {
     flex-shrink: 0;
     color: var(--color-marker);
   }
 
-  .section-marker {
+  .section-title :global(.section-marker) {
     transition: transform 0.4s var(--ease-out-quart);
   }
 
@@ -88,7 +86,7 @@ const SectionIcon = icon ? sectionIcons[icon] : undefined;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .section-row:is(:hover, :focus-within) .section-marker {
+    .section-row:is(:hover, :focus-within) :global(.section-marker) {
       transform: rotate(90deg);
     }
 
@@ -155,6 +153,32 @@ const SectionIcon = icon ? sectionIcons[icon] : undefined;
 
     .section-title {
       grid-column: auto;
+    }
+  }
+
+  @media print {
+    .section-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 32px;
+      margin-top: 32px;
+      padding: 36px 0 0;
+      border: 0;
+      border-top: 1px solid var(--print-rule);
+      break-inside: avoid;
+
+      &:first-child {
+        margin-top: 0;
+        border-top: 0;
+      }
+    }
+
+    .section-title {
+      grid-column: 1 / -1;
+    }
+
+    .section-title :global(.section-marker),
+    .section-icon {
+      color: var(--print-accent);
     }
   }
 </style>
