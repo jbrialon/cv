@@ -8,8 +8,17 @@
     "summary": "The client's 3D models came in mixed formats and sizes. Wrote a Blender + glTF-Transform pipeline to process 60+ watches in batch, down to around 6 MB each. Built the three.js viewer, ready to plug into the CMS, with custom shaders for the diamonds and physics for the moving parts."
   },
   {
-    "id": "audemars-piguet",
+    "id": "devenir",
     "order": 2,
+    "name": "Devenir",
+    "detail": "Brain-controlled game",
+    "role": "Unreal Engine Development",
+    "summary": "Unreal Engine game played with the mind, using an Emotiv brain-computer interface headset as the controller. Built the game and connected it to the Emotiv API (via Socket.IO) in two months for Digital Festival Zurich, later shown at OMR 23.",
+    "award": "W3 Best in Show + Webby People's Voice"
+  },
+  {
+    "id": "audemars-piguet",
+    "order": 3,
     "name": "Audemars Piguet",
     "detail": "Musée Atelier & brand site",
     "role": "Front-End Lead & 3D Development",
@@ -17,19 +26,10 @@
   },
   {
     "id": "vacheron-constantin",
-    "order": 3,
+    "order": 4,
     "name": "Vacheron Constantin",
     "role": "Front-End Architecture",
-    "summary": "Set up the front-end architecture of the brand site. It's still in use two redesigns later, and was reused for Baume & Mercier (Richemont) and Audemars Piguet. Earlier, built heavily animated single-page experiences for new watch and collection launches."
-  },
-  {
-    "id": "devenir",
-    "order": 4,
-    "name": "Devenir",
-    "detail": "Brain-controlled game",
-    "role": "Unreal Engine & BCI Development",
-    "summary": "A two-level video game played with the mind, with a brain-computer interface (BCI) headset as the controller. Built the Unreal Engine game and its connection to the BCI through a Socket.IO server, in two months, for a booth at Digital Festival Zurich. It was shown again at OMR 23 and at Merkle events.",
-    "award": "W3 Best in Show + Webby People's Voice"
+    "summary": "Set up the front-end architecture of the brand site. It's still in use two redesigns later, and was reused for Baume & Mercier and Audemars Piguet. Earlier, built heavily animated single-page experiences for new watch and collection launches."
   },
   {
     "id": "hublot",
