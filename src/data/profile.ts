@@ -35,7 +35,7 @@ export const profile: Profile = {
   resumeFilename: "jeremy-brialon-cv-en.pdf",
   summary: [
     "Senior front-end developer with 12 years at Merkle Switzerland, building websites for luxury watch brands: Vacheron Constantin, Audemars Piguet, Chopard, Hublot, Baume & Mercier.",
-    "I build front-end architectures that last through several redesigns, and I add real-time 3D when a project calls for it, from the first prototype to the live site.",
+    "I build front-end architectures that last through several redesigns and I add real-time 3D when a project calls for it, from the first prototype to the live site.",
   ],
   contactLinks: [
     { label: "+33 6 07 26 55 12", href: "tel:+33607265512", external: false },
