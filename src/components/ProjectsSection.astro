@@ -10,7 +10,7 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
 const formatAwards = (award: string) => award.split(/\s*\+\s*/).join(" - ");
 ---
 
-<WindowFrame id="projects" label="Selected client projects" filename="selected-projects" tone="sky">
+<WindowFrame id="projects" label="Selected client projects" filename="selected client projects" tone="sky">
   <Fragment slot="meta">{formatNumber(projectEntries.length)} items</Fragment>
   <ol class="projects-list" role="list">
     {projectEntries.map(({ id, data: project }) => (

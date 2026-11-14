@@ -7,7 +7,7 @@
     "how": "Full-stack · Discord bot admin",
     "field": "Full-stack · Maps",
     "year": "2025",
-    "summary": "Turns trips into Instagram-style stories: bike tours with their GPX tracks, but also treks and travels with only photos and videos. A Discord bot is the admin, so I can post from the road without a back-office.",
+    "summary": "Turns trips into Instagram-style stories, from bike tours with GPX tracks to treks told in photos and videos. A Discord bot is the admin, so I post from the road.",
     "href": "https://story.completementalest.fr",
     "linkLabel": "story.completementalest.fr",
     "inks": ["#93b6c9", "#ebc4c0"]
@@ -20,7 +20,7 @@
     "how": "R3F · Twitch API · Mistral API",
     "field": "3D · LLM",
     "year": "2023",
-    "summary": "A 3D character with a strong personality, used live by several Twitch streamers. It reacts to chat, commands and stream events through the Twitch API, and answers in real time with an LLM-driven personality (Mistral API).",
+    "summary": "A 3D character used live by several Twitch streamers. It reacts to chat and stream events, and answers in real time with an LLM-driven personality.",
     "inks": ["#547598", "#f5b595"]
   },
   {
@@ -31,7 +31,7 @@
     "how": "Design & Development",
     "field": "Photo · Web · Maps",
     "year": "2019",
-    "summary": "My photography portfolio, designed and built from scratch: the layout, the photo series and the maps that go with them. It was recognised by the CSS Design Awards for UI, UX and Innovation.",
+    "summary": "My photography portfolio, designed and built from scratch: layout, photo series and the maps that go with them.",
     "award": "CSS Design Awards · UI, UX & Innovation",
     "href": "https://completementalest.fr",
     "linkLabel": "completementalest.fr",

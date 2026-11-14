@@ -348,6 +348,11 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
       color: var(--print-accent);
     }
 
+    .after-hours-icon :global(svg) {
+      width: 14px;
+      height: 14px;
+    }
+
     .plate-rosette {
       display: none;
     }
@@ -359,7 +364,6 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
 
     .plate-head,
     .plate-frame,
-    .plate-summary,
     .after-hours-intro .paragraph {
       display: none;
     }
@@ -400,8 +404,14 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
       }
     }
 
+    .plate-summary {
+      grid-column: 1;
+      font-size: 0.8125rem;
+      color: var(--color-ink-soft);
+    }
+
     .plate-award {
-      grid-row: 2;
+      grid-column: 1;
     }
 
     .plate-link {
