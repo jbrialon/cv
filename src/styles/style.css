@@ -23,14 +23,12 @@ body {
   background: linear-gradient(
     to bottom,
     var(--sky-8) 0,
-    var(--sky-7) 55vh,
-    var(--sky-6) 100vh,
-    var(--sky-5) 120vh,
-    var(--sky-4) calc(20% + 86vh),
-    var(--sky-3) calc(40% + 52vh),
-    var(--sky-2) calc(60% + 18vh),
-    var(--sky-1) calc(80% - 16vh),
-    var(--sky-0) calc(100% - 50vh)
+    var(--sky-5) 70vh,
+    var(--sky-4) calc(20% + 36vh),
+    var(--sky-3) calc(40% + 2vh),
+    var(--sky-2) calc(60% - 32vh),
+    var(--sky-1) calc(80% - 66vh),
+    var(--sky-0) calc(100% - 100vh)
   );
   color: var(--color-ink);
   font-family: var(--font-mono);
