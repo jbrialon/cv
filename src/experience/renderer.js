@@ -34,12 +34,13 @@ export default class Renderer {
     this.instance.toneMapping = this.options.toneMapping;
     this.instance.toneMappingExposure = this.options.toneMappingExposure;
 
-    this.instance.setSize(this.sizes.width, this.sizes.height);
+    // false: CSS sizes the canvas, so it keeps filling the screen when Safari's bars move
+    this.instance.setSize(this.sizes.width, this.sizes.height, false);
     this.instance.setPixelRatio(this.sizes.pixelRatio);
   }
 
   resize() {
-    this.instance.setSize(this.sizes.width, this.sizes.height);
+    this.instance.setSize(this.sizes.width, this.sizes.height, false);
     this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
   }
 
