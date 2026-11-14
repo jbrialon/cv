@@ -41,7 +41,7 @@ export const profile: Profile = {
     { label: "+33 6 07 26 55 12", href: "tel:+33607265512", external: false },
     {
       label: "LinkedIn",
-      href: "https://www.linkedin.com/in/jeremy-brialon/",
+      href: "https://www.linkedin.com/in/jeremy-brialon-81694543/",
       external: true,
     },
     { label: "GitHub", href: "https://github.com/jbrialon", external: true },
