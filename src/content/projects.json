@@ -6,7 +6,7 @@
     "detail": "3D Viewer",
     "year": 2025,
     "role": "3D Development & Asset Pipeline",
-    "summary": "The client's 3D models came in mixed formats and sizes. Wrote a Blender + glTF-Transform pipeline to process 60+ watches in batch, down to around 6 MB each. Built the three.js viewer, ready to plug into the CMS, with custom shaders for the diamonds and physics for the moving parts.",
+    "summary": "The client's 3D models came in mixed formats and sizes. Wrote a Blender + glTF-Transform pipeline to process 60+ watches in batch, down to around 6 MB each with no visible quality loss. Built the three.js viewer, ready to plug into the CMS, with custom shaders for the diamonds and physics for the moving parts.",
     "inks": ["#e8b888", "#f5b595"]
   },
   {
@@ -16,7 +16,7 @@
     "detail": "Brain-controlled game",
     "year": 2022,
     "role": "Unreal Engine Development",
-    "summary": "Unreal Engine game played with the mind, using an Emotiv brain-computer interface headset as the controller. Built the game and connected it to the Emotiv API (via Socket.IO) in two months for Digital Festival Zurich, later shown at OMR 23.",
+    "summary": "Unreal Engine game played with the mind, using an Emotiv brain-computer interface headset as the controller. Built on a tight two-month deadline, with a setup that runs on any venue network: the Emotiv SDK streams over WebSockets from a client computer to a Socket.IO relay server that controls the game. Shown at Digital Festival Zurich, then OMR 23.",
     "inks": ["#6b5a78", "#d17a6c"],
     "award": "W3 Best in Show + Webby People's Voice"
   },
@@ -27,7 +27,7 @@
     "detail": "Musée Atelier & brand site",
     "year": 2021,
     "role": "Front-End & 3D Development",
-    "summary": "Two sites sharing one style guide: the Musée Atelier website, with a homepage animated in three.js, and the main brand site. Worked with the designers on the 3D parts and adapted them to the constraints of the CMS.",
+    "summary": "The museum homepage had a scroll-driven three.js scene that editors needed to author themselves, in the CMS's WYSIWYG editor. Built it so every step of the 3D animation can be edited visually, within the CMS's strict HTML templating. Also built the main brand site, rich in scroll-triggered animations.",
     "inks": ["#93b6c9", "#334970"]
   },
   {
@@ -35,7 +35,7 @@
     "order": 4,
     "name": "Vacheron Constantin",
     "role": "Front-End Architecture",
-    "summary": "Brand-site front-end architecture, later reused for Baume & Mercier and Audemars Piguet. Earlier, built heavily animated single-page experiences for new watch and collection launches.",
+    "summary": "Brought a modern framework (Vue.js) and build tools to a CMS that had none, so the team could iterate fast on the client's demanding designs. The architecture was later reused for Baume & Mercier and Audemars Piguet. Earlier, built heavily animated single-page experiences for new watch and collection launches, each time on the latest front-end tools.",
     "inks": ["#c5c8c5", "#ead5c2"]
   }
 ]

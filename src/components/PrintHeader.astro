@@ -8,7 +8,7 @@ const contactItems = [
   { label: profile.email, href: `mailto:${profile.email}` },
 ].concat(
   profile.contactLinks.map((contactLink) => ({
-    label: contactLink.external ? toReadableUrl(contactLink.href) : contactLink.label,
+    label: contactLink.printLabel ?? (contactLink.external ? toReadableUrl(contactLink.href) : contactLink.label),
     href: contactLink.href,
   })),
 );
@@ -29,8 +29,8 @@ const contactItems = [
   <ul class="print-contact" role="list">
     {contactItems.map((contactItem, index) => (
       <li>
-        {index > 0 && <span class="print-separator" aria-hidden="true">·</span>}
         <a href={contactItem.href}>{contactItem.label}</a>
+        {index < contactItems.length - 1 && <span class="print-separator" aria-hidden="true">·</span>}
       </li>
     ))}
   </ul>
