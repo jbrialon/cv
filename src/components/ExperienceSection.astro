@@ -33,13 +33,15 @@ const lastYear = experienceEntries.reduce(
       <article class="experience-entry">
         <div class="experience-meta">
           <h3 class="heading-3">{job.role}</h3>
-          <p class="paragraph">{job.company}<br />{job.location}</p>
+          <p class="paragraph">{job.company} · {job.location}</p>
           <p class="paragraph experience-dates">
             <time datetime={toIsoMonth(job.startDate)}>{monthYearFormat.format(job.startDate)}</time>
             <ArrowRightIcon class="year-range-arrow" width="12" height="12" aria-hidden="true" />
             <span class="visually-hidden">to</span>
+            <span class="experience-dates-dash">–</span>
             <time datetime={toIsoMonth(job.endDate)}>{monthYearFormat.format(job.endDate)}</time>
           </p>
+          {job.formerRole && <p class="paragraph experience-former-role">Joined as {job.formerRole}</p>}
         </div>
 
         <ul class="experience-highlights" role="list">
@@ -79,6 +81,14 @@ const lastYear = experienceEntries.reduce(
     display: flex;
     align-items: center;
     gap: 8px;
+    color: var(--color-ink-soft);
+  }
+
+  .experience-dates-dash {
+    display: none;
+  }
+
+  .experience-former-role {
     color: var(--color-ink-soft);
   }
 
@@ -144,11 +154,20 @@ const lastYear = experienceEntries.reduce(
     }
 
     .experience-meta {
-      gap: 8px;
+      gap: 6px;
+    }
+
+    .experience-dates .year-range-arrow,
+    .experience-dates .visually-hidden {
+      display: none;
+    }
+
+    .experience-dates-dash {
+      display: inline;
     }
 
     .experience-highlights {
-      gap: 18px;
+      gap: 12px;
 
       li {
         padding-bottom: 0;

@@ -3,12 +3,13 @@ export interface Profile {
   role: string;
   location: string;
   email: string;
+  website: string;
   availability: string;
   resumeHref?: string;
   resumeFilename?: string;
-  headline: string;
   summary: string[];
   contactLinks: ContactLink[];
+  languages: Language[];
 }
 
 export interface ContactLink {
@@ -17,26 +18,36 @@ export interface ContactLink {
   external: boolean;
 }
 
+export interface Language {
+  name: string;
+  level: string;
+}
+
 export const profile: Profile = {
   name: "Jérémy Brialon",
-  role: "Senior Front-End Developer - Immersive Experiences",
-  location: "Annecy (FR) · Geneva (CH)",
+  role: "Senior Front-End Developer · Immersive Experiences",
+  location: "Annecy (FR) · Geneva (CH) · Cross-border permit (G)",
   email: "jeremy.brialon@pm.me",
+  website: "https://cv.jerem.cool",
   availability:
-    "Open to senior front-end and immersive development roles around Annecy and Geneva.",
+    "Looking for a permanent position in the Geneva or Annecy area, in a team that cares about craft, performance and accessibility.",
   resumeHref: "/jeremy-brialon-cv-en.pdf",
   resumeFilename: "jeremy-brialon-cv-en.pdf",
-  headline: "Front-End & Immersive Experiences",
   summary: [
-    "Senior front-end developer with 10+ years building websites for watchmaking and luxury brands and the immersive, real-time 3D experiences that go with them.",
+    "Senior front-end developer with 12 years at Merkle Switzerland, building websites for luxury watch brands: Vacheron Constantin, Audemars Piguet, Chopard, Hublot, Baume & Mercier.",
+    "I build front-end architectures that last through several redesigns, and I add real-time 3D when a project calls for it, from the first prototype to the live site.",
   ],
   contactLinks: [
     { label: "+33 6 07 26 55 12", href: "tel:+33607265512", external: false },
     {
       label: "LinkedIn",
-      href: "https://www.linkedin.com/in/jeremy-brialon-81694543/",
+      href: "https://www.linkedin.com/in/jeremy-brialon/",
       external: true,
     },
     { label: "GitHub", href: "https://github.com/jbrialon", external: true },
+  ],
+  languages: [
+    { name: "French", level: "native" },
+    { name: "English", level: "professional working proficiency" },
   ],
 };

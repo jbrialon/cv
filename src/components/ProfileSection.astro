@@ -1,24 +1,36 @@
 ---
 import SectionRow from './SectionRow.astro';
-import ButtonLink from './ButtonLink.astro';
 import { profile } from '../data/profile';
+
+// "Annecy (FR) · Geneva area · Cross-border permit (G)" → three facts
+const locationFacts = profile.location.split(/\s*·\s*/);
 ---
 
 <SectionRow title="Profile" id="profile" icon="sphere">
-  <div class="profile-column">
-    <h3 class="heading-3">{profile.headline}</h3>
+  <div class="profile-main">
     {profile.summary.map((paragraph) => <p class="paragraph">{paragraph}</p>)}
+    <p class="profile-status">
+      <span class="status-dot" aria-hidden="true"></span>
+      {profile.availability}
+    </p>
   </div>
 
-  <div class="profile-column">
-    <h3 class="heading-3">Contact</h3>
-    <p class="paragraph location">{profile.location}</p>
-    <ul class="contact-links">
+  <div class="profile-side">
+    <ul class="profile-facts" role="list" aria-label="Location">
+      {locationFacts.map((locationFact) => <li>{locationFact}</li>)}
+    </ul>
+    <ul class="profile-links" role="list" aria-label="Contact">
       {profile.contactLinks.map((contactLink) => (
         <li>
-          <ButtonLink href={contactLink.href} external={contactLink.external}>
+          <a
+            class="profile-link"
+            href={contactLink.href}
+            target={contactLink.external ? "_blank" : undefined}
+            rel={contactLink.external ? "noopener noreferrer" : undefined}
+          >
             {contactLink.label}
-          </ButtonLink>
+            {contactLink.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+          </a>
         </li>
       ))}
     </ul>
@@ -26,31 +38,142 @@ import { profile } from '../data/profile';
 </SectionRow>
 
 <style>
-  .profile-column {
+  .profile-main {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
+
+    .paragraph {
+      max-width: 62ch;
+    }
   }
 
-  .location {
+  .profile-status {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 8px;
+    padding: 14px 18px;
+    border-left: 3px solid var(--color-marker);
+    background: rgb(253 238 223 / 0.45);
+    text-wrap: pretty;
+  }
+
+  .status-dot {
+    position: relative;
+    top: -1px;
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--color-marker);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border: 1px solid var(--color-marker);
+      animation: status-pulse 2s var(--ease-out-quart) infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &::after {
+        animation: none;
+      }
+    }
+  }
+
+  @keyframes status-pulse {
+    from {
+      opacity: 0.8;
+      transform: scale(0.6);
+    }
+
+    to {
+      opacity: 0;
+      transform: scale(1.4);
+    }
+  }
+
+  .profile-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .profile-facts {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.875rem;
     color: var(--color-ink-soft);
   }
 
-  .contact-links {
+  .profile-links {
     list-style: none;
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .profile-link {
+    padding-block: 2px;
+    color: var(--color-ink);
+    text-decoration: none;
+    background: linear-gradient(var(--color-accent), var(--color-accent)) no-repeat 0 100% / 16px 2px;
+    transition:
+      background-size 0.45s var(--ease-out-quart),
+      color 0.25s linear;
+
+    &:hover {
+      color: var(--sky-7);
+      background-size: 100% 2px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-ink);
+      outline-offset: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  @media (min-width: 60em) {
+    .profile-main {
+      grid-column: 2 / -1;
+      grid-row: 1 / span 2;
+    }
+
+    .profile-side {
+      grid-column: 1;
+      grid-row: 2;
+    }
   }
 
   @media print {
-    .profile-column {
+    .profile-main {
       grid-column: 1 / -1;
-      gap: 16px;
+      grid-row: auto;
+      gap: 10px;
+
+      .paragraph {
+        max-width: none;
+      }
     }
 
-    .profile-column + .profile-column {
+    /* PrintHeader already carries location and contact */
+    .profile-side,
+    .status-dot {
       display: none;
+    }
+
+    .profile-status {
+      margin-top: 0;
+      padding: 0 0 0 12px;
+      background: none;
     }
   }
 </style>

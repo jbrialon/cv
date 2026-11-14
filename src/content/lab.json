@@ -1,0 +1,40 @@
+[
+  {
+    "id": "travel-stories",
+    "order": 1,
+    "name": "Story",
+    "detail": "Storytelling tool for travels",
+    "how": "Full-stack · Discord bot admin",
+    "field": "Full-stack · Maps",
+    "year": "2025",
+    "summary": "Turns trips into Instagram-style stories: bike tours with their GPX tracks, but also treks and travels with only photos and videos. A Discord bot is the admin, so I can post from the road without a back-office.",
+    "href": "https://story.completementalest.fr",
+    "linkLabel": "story.completementalest.fr",
+    "inks": ["#93b6c9", "#ebc4c0"]
+  },
+  {
+    "id": "askobot",
+    "order": 2,
+    "name": "Askobot",
+    "detail": "3D Twitch bot",
+    "how": "R3F · Twitch API · Mistral API",
+    "field": "3D · LLM",
+    "year": "2023",
+    "summary": "A 3D character with a strong personality, used live by several Twitch streamers. It reacts to chat, commands and stream events through the Twitch API, and answers in real time with an LLM-driven personality (Mistral API).",
+    "inks": ["#547598", "#f5b595"]
+  },
+  {
+    "id": "completement-a-lest",
+    "order": 3,
+    "name": "Complètement à l'Est",
+    "detail": "Photography portfolio",
+    "how": "Design & Development",
+    "field": "Photo · Web · Maps",
+    "year": "2019",
+    "summary": "My photography portfolio, designed and built from scratch: the layout, the photo series and the maps that go with them. It was recognised by the CSS Design Awards for UI, UX and Innovation.",
+    "award": "CSS Design Awards · UI, UX & Innovation",
+    "href": "https://completementalest.fr",
+    "linkLabel": "completementalest.fr",
+    "inks": ["#e8b888", "#d17a6c"]
+  }
+]

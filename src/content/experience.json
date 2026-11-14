@@ -2,16 +2,17 @@
   {
     "id": "merkle-switzerland",
     "role": "Senior Front-End Developer",
+    "formerRole": "Front-End Consultant",
     "company": "Merkle Switzerland",
     "location": "Geneva",
     "startDate": "2014-10-01",
     "endDate": "2026-12-31",
     "highlights": [
-      "Joined as a front-end consultant and became senior front-end developer and mainly worked on luxury watch brands.",
-      "2022–2024: Emerging Experiences team, R&D in 3D, Unreal Engine, Unity and AR/VR. Since then, 3D proofs of concept for client pitches.",
-      "Built the front-end architecture of Vacheron Constantin's website, still in use two redesigns later and reused for Baume & Mercier and Audemars Piguet.",
-      "Technical direction, code reviews and mentoring on small front-end teams (Audemars Piguet, Vacheron Constantin, Baume & Mercier).",
-      "Link between designers, clients and back-end teams, finding ways to build demanding designs within CMS constraints."
+      "Built the front-end architecture of Vacheron Constantin's brand site. It is still in use two redesigns later and was reused for Baume & Mercier and Audemars Piguet.",
+      "Senior developer on front-end teams of 2–3 (Audemars Piguet, Vacheron Constantin, Baume & Mercier): set the technical direction, reviewed code and onboarded new developers.",
+      "Lead developer on the 3D part of the Chopard viewer: a Blender + glTF-Transform pipeline for 60+ watches, custom three.js shaders, and integration into the CMS.",
+      "Member of the Emerging Experiences team (2022–2024): R&D in real-time 3D, Unreal Engine, Unity and AR/VR. Since then, I've built 3D proofs of concept that help win client pitches.",
+      "Worked between designers, clients and back-end teams to deliver demanding, animation-heavy designs within the limits of each CMS."
     ]
   }
 ]

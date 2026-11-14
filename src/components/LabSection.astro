@@ -1,0 +1,416 @@
+---
+import { getCollection } from "astro:content";
+import MugIcon from "../icons/section-mug.svg";
+import RosetteIcon from "../icons/award-rosette.svg";
+
+const labEntries = (await getCollection("lab")).sort(
+  (firstEntry, secondEntry) => firstEntry.data.order - secondEntry.data.order,
+);
+const formatNumber = (value: number) => String(value).padStart(2, "0");
+---
+
+<section class="after-hours" id="after-hours" aria-labelledby="after-hours-title">
+  <div class="after-hours-intro">
+    <h2 class="heading-2 after-hours-title" id="after-hours-title">
+      <span class="after-hours-icon"><MugIcon width="20" height="20" aria-hidden="true" /></span>
+      After hours
+    </h2>
+    <p class="paragraph">
+    Outside client work, I still build things for the pleasure of it, from the first idea to the server: 
+    a 3D character for Twitch streamers, my photography portfolio and a tool to tell travel stories and many more.
+    </p>
+  </div>
+
+  <ol class="plate-list" role="list">
+    {labEntries.map(({ id, data: labProject }) => (
+      <li class="plate">
+        <div class="plate-head">
+          <span>
+            {formatNumber(labProject.order)}
+            {labProject.year && <span class="plate-year"> · {labProject.year}</span>}
+          </span>
+          <span>{labProject.field}</span>
+        </div>
+
+        <div
+          class="plate-frame"
+          style={`--media-position: ${labProject.media?.position ?? "50% 50%"}; --ink-one: ${labProject.inks[0]}; --ink-two: ${labProject.inks[1]}`}
+        >
+          <span class="plate-mark plate-mark--top-left" aria-hidden="true"></span>
+          <span class="plate-mark plate-mark--top-right" aria-hidden="true"></span>
+          <span class="plate-mark plate-mark--bottom-left" aria-hidden="true"></span>
+          <span class="plate-mark plate-mark--bottom-right" aria-hidden="true"></span>
+          <div class="plate-media">
+            {labProject.media?.type === "video" && (
+              <video
+                class="plate-video"
+                src={labProject.media.src}
+                poster={labProject.media.poster}
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                aria-label={`${labProject.name}, short preview`}
+              ></video>
+            )}
+            {labProject.media?.type === "image" && (
+              <picture>
+                <source srcset={`${labProject.media.src}.webp`} type="image/webp" />
+                <img src={`${labProject.media.src}.jpg`} alt={labProject.media.alt} loading="lazy" width="1200" height="739" />
+              </picture>
+            )}
+            {!labProject.media && (
+              <div class="plate-placeholder" aria-hidden="true">
+                <span class="plate-placeholder-file">{id}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <dl class="plate-fields">
+          <div><dt>Name</dt><dd><b>{labProject.name}</b></dd></div>
+          <div><dt>What</dt><dd>{labProject.detail}</dd></div>
+          <div><dt>How</dt><dd>{labProject.how}</dd></div>
+        </dl>
+        <p class="paragraph plate-summary">{labProject.summary}</p>
+        {labProject.award && (
+          <p class="plate-award">
+            <RosetteIcon class="plate-rosette" width="15" height="18" aria-hidden="true" />
+            <span><span class="visually-hidden">Awards: </span>{labProject.award}</span>
+          </p>
+        )}
+        {labProject.href && (
+          <a class="plate-link" href={labProject.href} target="_blank" rel="noopener noreferrer">
+            {labProject.linkLabel ?? labProject.href} ↗<span class="visually-hidden"> (opens in a new tab)</span>
+          </a>
+        )}
+      </li>
+    ))}
+  </ol>
+</section>
+
+<script>
+  // the loop plays only while visible, never with reduced motion
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const videoObserver = new IntersectionObserver((observedEntries) => {
+    observedEntries.forEach((observedEntry) => {
+      const videoElement = observedEntry.target as HTMLVideoElement;
+      if (observedEntry.isIntersecting && !prefersReducedMotion) videoElement.play().catch(() => {});
+      else videoElement.pause();
+    });
+  });
+  document.querySelectorAll<HTMLVideoElement>(".plate-video").forEach((videoElement) => videoObserver.observe(videoElement));
+</script>
+
+<style>
+  .after-hours {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-block: 72px;
+  }
+
+  .after-hours-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .paragraph {
+      color: var(--color-ink-soft);
+    }
+  }
+
+  .after-hours-title {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  .after-hours-icon {
+    position: relative;
+    top: 2px;
+    margin-right: -4px;
+    flex-shrink: 0;
+    color: var(--color-marker);
+    line-height: 0;
+
+    :global(svg) {
+      overflow: visible;
+    }
+
+    :global(g) {
+      transform-box: fill-box;
+    }
+  }
+
+  .plate-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+  }
+
+  .plate {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .plate-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--color-ink);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    span:last-child {
+      color: var(--color-ink-soft);
+    }
+  }
+
+  .plate-year {
+    color: var(--color-ink-soft);
+  }
+
+  /* crop marks around the media, like a riso proof */
+  .plate-frame {
+    position: relative;
+    padding: 14px;
+  }
+
+  .plate-mark {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 0 solid var(--color-accent);
+    transition: border-color 0.3s linear;
+  }
+
+  /* each mark knows which way is "in" */
+  .plate-mark--top-left { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; --mark-in-x: 7px; --mark-in-y: 7px; }
+  .plate-mark--top-right { top: 0; right: 0; border-top-width: 2px; border-right-width: 2px; --mark-in-x: -7px; --mark-in-y: 7px; }
+  .plate-mark--bottom-left { bottom: 0; left: 0; border-bottom-width: 2px; border-left-width: 2px; --mark-in-x: 7px; --mark-in-y: -7px; }
+  .plate-mark--bottom-right { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; --mark-in-x: -7px; --mark-in-y: -7px; }
+
+  .plate:is(:hover, :focus-within) .plate-mark {
+    border-color: var(--color-ink-soft);
+  }
+
+  .plate-media {
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--color-ink);
+    background: var(--sky-8);
+
+    img,
+    video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: var(--media-position);
+    }
+  }
+
+  /* same soft ink blobs and grain as the client project thumbs */
+  .plate-placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 30% 38%, var(--ink-one) 0 18%, transparent 52%),
+      radial-gradient(circle at 72% 64%, var(--ink-two) 0 16%, transparent 54%),
+      var(--color-paper);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      mix-blend-mode: multiply;
+      opacity: 0.4;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+    }
+  }
+
+  .plate-placeholder-file {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    font-size: 0.6875rem;
+  }
+
+  .plate-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.8125rem;
+
+    div {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    dt {
+      color: var(--color-ink-soft);
+    }
+  }
+
+  .plate-summary {
+    font-size: 0.875rem;
+    text-wrap: pretty;
+  }
+
+  .plate-award {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .plate-rosette {
+    flex-shrink: 0;
+    color: var(--color-accent);
+  }
+
+  .plate-link {
+    align-self: flex-start;
+    padding-block: 2px;
+    color: var(--color-ink);
+    font-size: 0.875rem;
+    text-decoration: none;
+    background: linear-gradient(var(--color-accent), var(--color-accent)) no-repeat 0 100% / 16px 2px;
+    transition:
+      background-size 0.45s var(--ease-out-quart),
+      color 0.25s linear;
+
+    &:hover {
+      color: var(--sky-7);
+      background-size: 100% 2px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-ink);
+      outline-offset: 4px;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* focusing: the marks close in on the picture, then settle back */
+    .plate:is(:hover, :focus-within) .plate-mark {
+      animation: mark-focus 0.7s var(--ease-out-quart);
+    }
+
+    /* the mug's steam rises again */
+    .after-hours:is(:hover, :focus-within) .after-hours-icon :global(.icon-steam) {
+      animation: steam-rise 1.2s var(--ease-out-quart);
+    }
+  }
+
+  @keyframes mark-focus {
+    40% { transform: translate(var(--mark-in-x), var(--mark-in-y)); }
+    65% { transform: translate(calc(var(--mark-in-x) * -0.15), calc(var(--mark-in-y) * -0.15)); }
+  }
+
+  @keyframes steam-rise {
+    from { opacity: 0; transform: translateY(2px); }
+  }
+
+  @media (min-width: 50em) {
+    .plate-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 36px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plate-mark,
+    .plate-link {
+      transition: none;
+    }
+  }
+
+  /* PDF: three compact lines with clickable links, no media */
+  @media print {
+    .after-hours {
+      gap: 12px;
+      margin-block: 22px 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--print-rule);
+      break-inside: avoid;
+    }
+
+    .after-hours-icon {
+      color: var(--print-accent);
+    }
+
+    .plate-rosette {
+      display: none;
+    }
+
+    .plate-list {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .plate-head,
+    .plate-frame,
+    .plate-summary,
+    .after-hours-intro .paragraph {
+      display: none;
+    }
+
+    /* one line per project: name · what · how, then the link on the right */
+    .plate {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+      gap: 2px 16px;
+    }
+
+    .plate-fields {
+      display: block;
+      font-size: 0.9375rem;
+
+      div {
+        display: inline;
+      }
+
+      div + div::before {
+        content: "·";
+        padding-inline: 8px;
+        color: var(--print-accent);
+      }
+
+      div:last-child dd {
+        display: inline;
+        color: var(--color-ink-soft);
+      }
+
+      dt {
+        display: none;
+      }
+
+      dd {
+        display: inline;
+      }
+    }
+
+    .plate-award {
+      grid-row: 2;
+    }
+
+    .plate-link {
+      grid-column: 2;
+      grid-row: 1;
+      padding-block: 0;
+      font-size: 0.875rem;
+      background: none;
+      text-decoration: none;
+    }
+  }
+</style>

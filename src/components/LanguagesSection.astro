@@ -1,0 +1,56 @@
+---
+import SectionRow from "./SectionRow.astro";
+import { profile } from "../data/profile";
+---
+
+<SectionRow title="Languages" id="languages" icon="bubbles">
+  <ul class="language-list" role="list">
+    {profile.languages.map((language, index) => (
+      <li class="paragraph">
+        {index > 0 && <span class="language-separator" aria-hidden="true">·</span>}
+        <b>{language.name}</b>: {language.level}
+      </li>
+    ))}
+  </ul>
+</SectionRow>
+
+<style>
+  .language-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    grid-column: 1 / -1;
+  }
+
+  .language-separator {
+    display: none;
+    padding-inline: 10px;
+    color: var(--color-ink-soft);
+  }
+
+  @media (min-width: 40em) {
+    .language-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .language-separator {
+      display: inline;
+    }
+  }
+
+  @media (min-width: 60em) {
+    .language-list {
+      grid-column: 2 / -1;
+    }
+  }
+
+  /* the PDF lists languages in the header instead */
+  @media print {
+    :global(#languages) {
+      display: none;
+    }
+  }
+</style>

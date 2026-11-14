@@ -4,6 +4,7 @@
     "order": 1,
     "name": "Chopard",
     "detail": "3D Viewer",
+    "year": 2025,
     "role": "3D Development & Asset Pipeline",
     "summary": "The client's 3D models came in mixed formats and sizes. Wrote a Blender + glTF-Transform pipeline to process 60+ watches in batch, down to around 6 MB each. Built the three.js viewer, ready to plug into the CMS, with custom shaders for the diamonds and physics for the moving parts.",
     "inks": ["#e8b888", "#f5b595"]
@@ -13,6 +14,7 @@
     "order": 2,
     "name": "Devenir",
     "detail": "Brain-controlled game",
+    "year": 2022,
     "role": "Unreal Engine Development",
     "summary": "Unreal Engine game played with the mind, using an Emotiv brain-computer interface headset as the controller. Built the game and connected it to the Emotiv API (via Socket.IO) in two months for Digital Festival Zurich, later shown at OMR 23.",
     "inks": ["#6b5a78", "#d17a6c"],
@@ -23,7 +25,8 @@
     "order": 3,
     "name": "Audemars Piguet",
     "detail": "Musée Atelier & brand site",
-    "role": "Front-End Lead & 3D Development",
+    "year": 2021,
+    "role": "Front-End & 3D Development",
     "summary": "Two sites sharing one style guide: the Musée Atelier website, with a homepage animated in three.js, and the main brand site. Worked with the designers on the 3D parts and adapted them to the constraints of the CMS.",
     "inks": ["#93b6c9", "#334970"]
   },
@@ -32,7 +35,7 @@
     "order": 4,
     "name": "Vacheron Constantin",
     "role": "Front-End Architecture",
-    "summary": "Set up the front-end architecture of the brand site. It's still in use two redesigns later, and was reused for Baume & Mercier and Audemars Piguet. Earlier, built heavily animated single-page experiences for new watch and collection launches.",
+    "summary": "Brand-site front-end architecture, later reused for Baume & Mercier and Audemars Piguet. Earlier, built heavily animated single-page experiences for new watch and collection launches.",
     "inks": ["#c5c8c5", "#ead5c2"]
   },
   {

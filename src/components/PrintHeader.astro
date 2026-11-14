@@ -2,19 +2,35 @@
 import { profile } from "../data/profile";
 
 const toReadableUrl = (href: string) => href.replace(/^https:\/\/(www\.)?/, "").replace(/\/$/, "");
+
+const contactItems = [
+  { label: toReadableUrl(profile.website), href: profile.website },
+  { label: profile.email, href: `mailto:${profile.email}` },
+].concat(
+  profile.contactLinks.map((contactLink) => ({
+    label: contactLink.external ? toReadableUrl(contactLink.href) : contactLink.label,
+    href: contactLink.href,
+  })),
+);
 ---
 
 <header class="print-header">
   <h1 class="print-name">{profile.name}</h1>
   <p class="print-role">{profile.role}</p>
+  <p class="print-location">{profile.location}</p>
+  <p class="print-languages">
+    {profile.languages.map((language, index) => (
+      <span>
+        {index > 0 && <span class="print-separator" aria-hidden="true">·</span>}
+        <b>{language.name}</b> ({language.level})
+      </span>
+    ))}
+  </p>
   <ul class="print-contact" role="list">
-    <li>{profile.location}</li>
-    <li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
-    {profile.contactLinks.map((contactLink) => (
+    {contactItems.map((contactItem, index) => (
       <li>
-        <a href={contactLink.href}>
-          {contactLink.external ? toReadableUrl(contactLink.href) : contactLink.label}
-        </a>
+        {index > 0 && <span class="print-separator" aria-hidden="true">·</span>}
+        <a href={contactItem.href}>{contactItem.label}</a>
       </li>
     ))}
   </ul>
@@ -29,12 +45,13 @@ const toReadableUrl = (href: string) => href.replace(/^https:\/\/(www\.)?/, "").
     .print-header {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      padding-bottom: 52px;
+      gap: 8px;
+      padding-bottom: 24px;
       border-bottom: 1px solid var(--print-accent);
     }
 
     .print-name {
+      margin-bottom: 4px;
       font-family: var(--font-serif);
       font-weight: 400;
       font-size: 2.75rem;
@@ -46,17 +63,29 @@ const toReadableUrl = (href: string) => href.replace(/^https:\/\/(www\.)?/, "").
       font-size: 1.125rem;
     }
 
+    .print-location,
+    .print-languages,
+    .print-contact {
+      font-size: 0.875rem;
+    }
+
+    .print-languages b {
+      font-weight: 600;
+    }
+
     .print-contact {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
-      gap: 0 20px;
-      margin-top: 8px;
-      font-size: 0.875rem;
 
       a {
         text-decoration: none;
       }
+    }
+
+    .print-separator {
+      padding-inline: 8px;
+      color: var(--print-accent);
     }
   }
 </style>

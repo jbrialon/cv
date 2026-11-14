@@ -28,7 +28,22 @@ const formatAwards = (award: string) => award.split(/\s*\+\s*/).join(" - ");
           <div class="project-head">
             <h3 class="project-name">
               <b>{project.name}</b>
-              {project.detail && <span>{project.detail}</span>}
+              {(project.detail || project.year) && (
+                <span class="project-subtitle">
+                  {project.detail && (
+                    <span class="project-subtitle-part">
+                      <span class="project-separator" aria-hidden="true">·</span>
+                      {project.detail}
+                    </span>
+                  )}
+                  {project.year && (
+                    <span class="project-subtitle-part">
+                      <span class="project-separator" aria-hidden="true">·</span>
+                      <time datetime={String(project.year)}>{project.year}</time>
+                    </span>
+                  )}
+                </span>
+              )}
             </h3>
             <p class="project-role">{project.role}</p>
           </div>
@@ -137,6 +152,16 @@ const formatAwards = (award: string) => award.split(/\s*\+\s*/).join(" - ");
     }
   }
 
+  .project-separator {
+    padding-inline: 8px;
+    color: var(--color-ink-soft);
+  }
+
+  /* on screen the subtitle sits on its own line, so it needs no leading dot */
+  .project-subtitle-part:first-child .project-separator {
+    display: none;
+  }
+
   .project-role {
     font-size: 0.875rem;
     color: var(--color-ink-soft);
@@ -180,7 +205,7 @@ const formatAwards = (award: string) => award.split(/\s*\+\s*/).join(" - ");
 
     .project-item {
       grid-template-columns: minmax(0, 1fr);
-      padding: 26px 0;
+      padding: 20px 0;
       break-inside: avoid;
 
       & + & {
@@ -193,11 +218,25 @@ const formatAwards = (award: string) => award.split(/\s*\+\s*/).join(" - ");
     }
 
     .project-text {
-      gap: 12px;
+      gap: 8px;
     }
 
     .project-summary {
       max-width: none;
+    }
+
+    .project-name {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .project-subtitle-part:first-child .project-separator {
+      display: inline;
+    }
+
+    .project-role {
+      font-size: 0.9375rem;
+      color: var(--color-ink-soft);
     }
 
     .project-rosette {
