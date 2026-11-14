@@ -37,14 +37,5 @@
     "role": "Front-End Architecture",
     "summary": "Brand-site front-end architecture, later reused for Baume & Mercier and Audemars Piguet. Earlier, built heavily animated single-page experiences for new watch and collection launches.",
     "inks": ["#c5c8c5", "#ead5c2"]
-  },
-  {
-    "id": "hublot",
-    "order": 5,
-    "name": "Hublot",
-    "detail": "Strap configurator",
-    "role": "Front-End Development & Maintenance",
-    "summary": "Vue.js app for configuring watch straps, integrated with Hublot's Magento e-commerce. Built it, then maintained it over time.",
-    "inks": ["#acbfc6", "#f5d9c8"]
   }
 ]

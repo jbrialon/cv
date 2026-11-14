@@ -13,13 +13,15 @@ import { profile } from '../data/profile';
   </div>
 
   <nav class="hero-top-bar" aria-label="Contact and language">
-    <TextLink href={`mailto:${profile.email}`} tone="on-dark">
-      <MailIcon class="hero-link-icon" width="12" height="12" aria-hidden="true" />
-      <span class="hero-email-label">{profile.email}</span>
-    </TextLink>x
+    <span class="hero-email">
+      <TextLink href={`mailto:${profile.email}`} tone="on-dark">
+        <MailIcon class="hero-link-icon" width="12" height="12" aria-hidden="true" />
+        {profile.email}
+      </TextLink>
+    </span>
     {profile.resumeHref && (
       <>
-        <span class="hero-link-separator" aria-hidden="true">/</span>
+        <span class="hero-link-separator hero-link-separator--after-email" aria-hidden="true">/</span>
         <TextLink href={profile.resumeHref} download={profile.resumeFilename} tone="on-dark">
           <DownloadIcon class="hero-link-icon" width="12" height="12" aria-hidden="true" />
           cv.pdf
@@ -30,7 +32,6 @@ import { profile } from '../data/profile';
     <span class="hero-lang" role="group" aria-label="Language">
       <LanguageIcon class="hero-link-icon" width="12" height="12" aria-hidden="true" />
       <span class="hero-lang-option" lang="en" aria-current="true">EN</span>
-      {/* placeholder until the French version exists: becomes a TextLink to /fr/ with hreflang="fr" (TextLink needs a hreflang prop then) */}
       <span class="hero-lang-option hero-lang-option--soon" lang="fr" aria-disabled="true" title="Version française bientôt disponible">
         FR<span class="visually-hidden"> (French version coming soon)</span>
       </span>
@@ -128,7 +129,6 @@ import { profile } from '../data/profile';
     color: var(--color-on-dark);
   }
 
-  /* current language: underlined like an active link */
   .hero-lang-option[aria-current="true"] {
     padding-block: 4px;
     background: linear-gradient(var(--color-peach), var(--color-peach)) no-repeat 0 100% / 100% 2px;
@@ -139,15 +139,22 @@ import { profile } from '../data/profile';
     cursor: default;
   }
 
-  /* small screens keep the mail icon, screen readers still get the address */
   @media (max-width: 40em) {
-    .hero-email-label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
+    .hero-top-bar {
+      left: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      row-gap: 4px;
+    }
+
+    .hero-email {
+      display: flex;
+      justify-content: flex-end;
+      flex-basis: 100%;
+    }
+
+    .hero-link-separator--after-email {
+      display: none;
     }
   }
 

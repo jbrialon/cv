@@ -48,6 +48,7 @@ const MARKER_HEXES = [
   "#526369",
 ];
 const HERO_STAGE = 6;
+const HERO_FADE_SCREENS = 0.7;
 const CURSOR_HOLE_RADIUS = 0.015;
 
 export default class SkyBackground {
@@ -305,15 +306,30 @@ export default class SkyBackground {
   }
 
   update() {
+    const screenHeight = this.experience.sizes.height;
     const scrollableHeight =
-      document.documentElement.scrollHeight - this.experience.sizes.height;
-    const progress =
-      scrollableHeight > 0
-        ? Math.min(Math.max(window.scrollY / scrollableHeight, 0), 1)
-        : 0;
+      document.documentElement.scrollHeight - screenHeight;
+    const scroll = Math.min(Math.max(window.scrollY, 0), scrollableHeight);
+
+    // the night fades over a fixed distance, so a longer page doesn't make it fade later
+    const heroFadeDistance = Math.min(
+      screenHeight * HERO_FADE_SCREENS,
+      scrollableHeight,
+    );
+    const lightScrollHeight = scrollableHeight - heroFadeDistance;
 
     // top of the page is the hero stage (night), bottom is stage 0 (dawn)
-    const targetStage = HERO_STAGE * (1 - progress);
+    let targetStage;
+    if (heroFadeDistance <= 0) {
+      targetStage = HERO_STAGE;
+    } else if (scroll < heroFadeDistance) {
+      targetStage = HERO_STAGE - scroll / heroFadeDistance;
+    } else if (lightScrollHeight > 0) {
+      const lightProgress = (scroll - heroFadeDistance) / lightScrollHeight;
+      targetStage = LAST_LIGHT_STAGE * (1 - lightProgress);
+    } else {
+      targetStage = LAST_LIGHT_STAGE;
+    }
 
     // frames since the last one, counted at 60fps, so easing runs at the same speed on 120Hz screens
     const frameCount = this.experience.time.delta / (1000 / 60);
