@@ -1,8 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import type { Localized } from "../../i18n/localize";
 
 interface Props {
-  media: NonNullable<CollectionEntry<"projects">["data"]["media"]>;
+  media: Localized<NonNullable<CollectionEntry<"projects">["data"]["media"]>>;
 }
 
 const { media } = Astro.props;

@@ -72,8 +72,8 @@ const fr: Record<TranslationKey, string> = {
     "En parallèle de mes missions pour mes clients, je développe aussi mes propres idées et leur donne vie, de la conception jusqu'à la mise en ligne : un bot 3D pour les streamers Twitch, mon portfolio photo, un outil pour créer et partager des carnets de voyage, et bien d'autres projets.",
 
   "lab.name": "Nom",
-  "lab.what": "Description",
-  "lab.how": "Réalisation",
+  "lab.what": "Desc.",
+  "lab.how": "Réal.",
 
   "education.title": "Formation",
   "languages.title": "Langues",

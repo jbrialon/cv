@@ -3,11 +3,23 @@
     "id": "travel-stories",
     "order": 1,
     "name": "Story",
-    "detail": "Storytelling tool for travels",
-    "how": "Full-stack · Discord bot admin",
-    "field": "Full-stack · Maps",
+    "detail": {
+      "en": "Storytelling tool for travels",
+      "fr": "Carnets de voyage"
+    },
+    "how": {
+      "en": "Design & Development",
+      "fr": "Design & développement"
+    },
+    "field": {
+      "en": "Full-stack · Maps",
+      "fr": "Full-stack · Cartographie"
+    },
     "year": "2025",
-    "summary": "Turns trips into Instagram-style stories, from bike tours with GPX tracks to treks told in photos and videos. A Discord bot is the admin, so I post from the road.",
+    "summary": {
+      "en": "Turns trips into Instagram-style stories, from bike tours with GPX tracks to treks told in photos and videos. A Discord bot is the admin, so I post from the road.",
+      "fr": "Transforme les voyages en stories façon Instagram, des sorties à vélo avec traces GPX aux treks racontés en images. Un bot Discord permet de publier directement depuis la route."
+    },
     "href": "https://story.completementalest.fr",
     "linkLabel": "story.completementalest.fr",
     "inks": ["#93b6c9", "#ebc4c0"]
@@ -16,23 +28,51 @@
     "id": "askobot",
     "order": 2,
     "name": "Askobot",
-    "detail": "3D Twitch bot",
-    "how": "R3F · Twitch API · Mistral API",
-    "field": "3D · LLM",
+    "detail": {
+      "en": "3D Twitch bot",
+      "fr": "Bot Twitch en 3D"
+    },
+    "how": {
+      "en": "R3F · Twitch API · Mistral API",
+      "fr": "R3F · API Twitch · API Mistral"
+    },
+    "field": {
+      "en": "3D · LLM",
+      "fr": "3D · LLM"
+    },
     "year": "2023",
-    "summary": "A 3D character used live by several Twitch streamers. It reacts to chat and stream events, and answers in real time with an LLM-driven personality.",
+    "summary": {
+      "en": "A 3D character used live by several Twitch streamers. It reacts to chat and stream events, and answers in real time with an LLM-driven personality.",
+      "fr": "Personnage 3D utilisé en direct par plusieurs streamers Twitch. Il réagit au chat et aux événements du stream, puis répond en temps réel grâce à une personnalité animée par un LLM."
+    },
     "inks": ["#547598", "#f5b595"],
-    "media": { "type": "video", "src": "/videos/askobot/askobot.mp4", "poster": "/videos/askobot/askobot-poster.jpg" }
+    "media": {
+      "type": "video",
+      "src": "/videos/askobot/askobot.mp4",
+      "poster": "/videos/askobot/askobot-poster.jpg"
+    }
   },
   {
     "id": "completement-a-lest",
     "order": 3,
     "name": "Complètement à l'Est",
-    "detail": "Photography portfolio",
-    "how": "Design & Development",
-    "field": "Photo · Web · Maps",
+    "detail": {
+      "en": "Photography portfolio",
+      "fr": "Portfolio photo"
+    },
+    "how": {
+      "en": "Design & Development",
+      "fr": "Design & développement"
+    },
+    "field": {
+      "en": "Photo · Web · Maps",
+      "fr": "Photo · Web · Cartographie"
+    },
     "year": "2019",
-    "summary": "My photography portfolio, designed and built from scratch: layout, photo series and the maps that go with them.",
+    "summary": {
+      "en": "My photography portfolio, designed and built from scratch: layout, photo series and the maps that go with them.",
+      "fr": "Mon portfolio photo, conçu et développé de A à Z : mise en page, séries photo et les cartes qui les accompagnent."
+    },
     "award": "CSS Design Awards · UI, UX & Innovation",
     "href": "https://completementalest.fr",
     "linkLabel": "completementalest.fr",

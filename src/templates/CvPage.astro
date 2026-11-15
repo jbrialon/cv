@@ -11,7 +11,9 @@ import ExpertiseSection from '../components/sections/ExpertiseSection.astro';
 import EducationSection from '../components/sections/EducationSection.astro';
 import LanguagesSection from '../components/sections/LanguagesSection.astro';
 import FooterSection from '../components/sections/FooterSection.astro';
-import { profile } from '../data/profile';
+import { getProfile } from '../data/profile';
+
+const profile = getProfile(Astro.currentLocale);
 ---
 
 <BaseLayout title={`${profile.name}, ${profile.role}`}>

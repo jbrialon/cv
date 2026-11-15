@@ -4,11 +4,12 @@ import DownloadIcon from '../../icons/download.svg';
 import LanguageIcon from '../../icons/language.svg';
 import TextLink from '../ui/TextLink.astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import { profile } from '../../data/profile';
+import { getProfile } from '../../data/profile';
 import { defaultLocale, languages, useTranslations } from '../../i18n/ui';
 
 const currentLocale = Astro.currentLocale ?? defaultLocale;
 const translate = useTranslations(currentLocale);
+const profile = getProfile(currentLocale);
 ---
 
 <header class="hero">

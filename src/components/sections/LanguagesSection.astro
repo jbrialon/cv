@@ -1,9 +1,10 @@
 ---
 import SectionRow from "../ui/SectionRow.astro";
-import { profile } from "../../data/profile";
+import { getProfile } from "../../data/profile";
 import { useTranslations } from "../../i18n/ui";
 
 const translate = useTranslations(Astro.currentLocale);
+const profile = getProfile(Astro.currentLocale);
 ---
 
 <SectionRow title={translate("languages.title")} id="languages" icon="bubbles">

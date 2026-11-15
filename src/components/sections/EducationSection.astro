@@ -2,10 +2,11 @@
 import { getCollection } from "astro:content";
 import SectionRow from "../ui/SectionRow.astro";
 import { useTranslations } from "../../i18n/ui";
+import { localize } from "../../i18n/localize";
 
 const translate = useTranslations(Astro.currentLocale);
 
-const educationEntries = (await getCollection("education")).sort(
+const educationEntries = localize(await getCollection("education"), Astro.currentLocale).sort(
   (firstEntry, secondEntry) => secondEntry.data.endYear - firstEntry.data.endYear,
 );
 ---

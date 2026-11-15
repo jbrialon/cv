@@ -4,10 +4,11 @@ import WindowFrame from "../ui/WindowFrame.astro";
 import MediaPreview from "../ui/MediaPreview.astro";
 import RosetteIcon from "../../icons/award-rosette.svg";
 import { useTranslations } from "../../i18n/ui";
+import { localize } from "../../i18n/localize";
 
 const translate = useTranslations(Astro.currentLocale);
 
-const projectEntries = (await getCollection("projects")).sort(
+const projectEntries = localize(await getCollection("projects"), Astro.currentLocale).sort(
   (firstEntry, secondEntry) => firstEntry.data.order - secondEntry.data.order,
 );
 const formatNumber = (value: number) => String(value).padStart(2, "0");

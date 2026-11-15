@@ -1,7 +1,12 @@
+import { localize, type LocalizedText } from "../i18n/localize";
+
+// tool names stay a plain string, the rest gets both languages
+type SkillText = string | LocalizedText;
+
 export interface SkillGroup {
-  title: string;
+  title: SkillText;
   emphasis: "primary" | "secondary";
-  skills: string[];
+  skills: SkillText[];
 }
 
 export const skillGroups: SkillGroup[] = [
@@ -12,21 +17,20 @@ export const skillGroups: SkillGroup[] = [
       "TypeScript",
       "Vue 3 / Nuxt",
       "Astro",
-      "Accessibility · WCAG 2.2",
-      "Headless CMS",
-      "Modern CSS",
+      { en: "Accessibility · WCAG 2.2", fr: "Accessibilité · WCAG 2.2" },
+      { en: "Headless CMS", fr: "CMS headless" },
+      { en: "Modern CSS", fr: "CSS moderne" },
       "Design systems & tokens",
       "Vite · Node.js · CI/CD",
       "Claude Code / Copilot",
     ],
   },
   {
-    title: "3D & Creative",
+    title: { en: "3D & Creative", fr: "3D & création" },
     emphasis: "secondary",
     skills: [
       "Three.js",
       "React Three Fiber",
-
       "WebGPU / WebGL",
       "Blender",
       "GSAP",
@@ -36,3 +40,7 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
 ];
+
+export function getSkillGroups(locale: string | undefined) {
+  return localize(skillGroups, locale);
+}

@@ -1,17 +1,38 @@
 [
   {
     "id": "merkle-switzerland",
-    "role": "Senior Front-End Developer",
-    "formerRole": "Front-End Consultant",
+    "role": {
+      "en": "Senior Front-End Developer",
+      "fr": "Développeur front-end senior"
+    },
+    "formerRole": {
+      "en": "Front-End Consultant",
+      "fr": "Consultant front-end"
+    },
     "company": "Merkle Switzerland",
-    "location": "Geneva",
+    "location": {
+      "en": "Geneva",
+      "fr": "Genève"
+    },
     "startDate": "2014-10-01",
     "endDate": "2026-12-31",
     "highlights": [
-      "Technical front-end lead on luxury and corporate projects: made the technical decisions, reviewed code and onboarded new developers.",
-      "Built the front-end architecture of Vacheron Constantin's brand site, still in use two redesigns later and reused for Baume & Mercier and Audemars Piguet.",
-      "Member of the Emerging Experiences team (2022–2024): R&D in real-time 3D, Unreal Engine, Unity and AR/VR. Since then, I've built 3D proofs of concept that help win client pitches.",
-      "Worked between designers, clients and back-end teams to deliver demanding, animation-heavy designs within the limits of each CMS."
+      {
+        "en": "Technical front-end lead on luxury and corporate projects: made the technical decisions, reviewed code and onboarded new developers.",
+        "fr": "Référent technique front-end sur des projets variés, principalement dans le secteur du luxe : définition des choix techniques, revues de code et accompagnement des nouveaux développeurs."
+      },
+      {
+        "en": "Built the front-end architecture of Vacheron Constantin's brand site, still in use two redesigns later and reused for Baume & Mercier and Audemars Piguet.",
+        "fr": "Conception de l'architecture front-end du site de Vacheron Constantin, toujours en place après deux refontes et réutilisée pour les sites de Baume & Mercier et d'Audemars Piguet."
+      },
+      {
+        "en": "Member of the Emerging Experiences team (2022–2024): R&D in real-time 3D, Unreal Engine, Unity and AR/VR. Since then, I've built 3D proofs of concept that help win client pitches.",
+        "fr": "Membre de l'équipe Emerging Experiences (2022–2024) : R&D autour de la 3D temps réel, d'Unreal Engine, de Unity et des technologies AR/VR. Depuis, je développe des prototypes 3D pour donner vie aux concepts et soutenir les présentations commerciales auprès des clients."
+      },
+      {
+        "en": "Worked between designers, clients and back-end teams to deliver demanding, animation-heavy designs within the limits of each CMS.",
+        "fr": "Interface entre les designers, les clients et les équipes back-end, avec pour objectif de concrétiser des interfaces ambitieuses, riches en animations, tout en tenant compte des contraintes propres à chaque CMS."
+      }
     ]
   }
 ]

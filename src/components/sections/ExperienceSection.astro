@@ -3,11 +3,12 @@ import { getCollection } from "astro:content";
 import WindowFrame from "../ui/WindowFrame.astro";
 import ArrowRightIcon from "../../icons/arrow-right.svg";
 import { defaultLocale, useTranslations } from "../../i18n/ui";
+import { localize } from "../../i18n/localize";
 
 const currentLocale = Astro.currentLocale ?? defaultLocale;
 const translate = useTranslations(currentLocale);
 
-const experienceEntries = (await getCollection("experience")).sort(
+const experienceEntries = localize(await getCollection("experience"), currentLocale).sort(
   (firstEntry, secondEntry) => secondEntry.data.startDate.getTime() - firstEntry.data.startDate.getTime(),
 );
 

@@ -1,5 +1,7 @@
 ---
-import { profile } from "../../data/profile";
+import { getProfile } from "../../data/profile";
+
+const profile = getProfile(Astro.currentLocale);
 
 const toReadableUrl = (href: string) => href.replace(/^https:\/\/(www\.)?/, "").replace(/\/$/, "");
 

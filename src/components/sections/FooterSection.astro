@@ -1,10 +1,11 @@
 ---
 import TextLink from "../ui/TextLink.astro";
 import ArrowRightIcon from "../../icons/arrow-right.svg";
-import { profile } from "../../data/profile";
+import { getProfile } from "../../data/profile";
 import { useTranslations } from "../../i18n/ui";
 
 const translate = useTranslations(Astro.currentLocale);
+const profile = getProfile(Astro.currentLocale);
 
 const externalLinks = profile.contactLinks.filter((contactLink) => contactLink.external);
 const buildYear = new Date().getFullYear();
