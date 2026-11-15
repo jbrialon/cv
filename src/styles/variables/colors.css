@@ -26,4 +26,6 @@
   --color-title-bar: #e8b888;
   --color-title-bar-alt: #93b6c9;
   --color-peach: #f5b595;
+  --color-selection: var(--color-peach);
+  --color-on-selection: var(--color-ink);
 }

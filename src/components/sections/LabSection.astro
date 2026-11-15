@@ -1,7 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import MugIcon from "../icons/section-mug.svg";
-import RosetteIcon from "../icons/award-rosette.svg";
+import MediaPreview from "../ui/MediaPreview.astro";
+import MugIcon from "../../icons/section-mug.svg";
+import RosetteIcon from "../../icons/award-rosette.svg";
+import { useTranslations } from "../../i18n/ui";
+
+const translate = useTranslations(Astro.currentLocale);
 
 const labEntries = (await getCollection("lab")).sort(
   (firstEntry, secondEntry) => firstEntry.data.order - secondEntry.data.order,
@@ -13,17 +17,14 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
   <div class="after-hours-intro">
     <h2 class="heading-2 after-hours-title" id="after-hours-title">
       <span class="after-hours-icon"><MugIcon width="20" height="20" aria-hidden="true" /></span>
-      After hours
+      {translate("lab.title")}
     </h2>
-    <p class="paragraph">
-    Outside client work, I still build things for the pleasure of it, from the first idea to the server: 
-    a 3D character for Twitch streamers, my photography portfolio and a tool to tell travel stories and many more.
-    </p>
+    <p class="paragraph">{translate("lab.intro")}</p>
   </div>
 
   <ol class="plate-list" role="list">
     {labEntries.map(({ id, data: labProject }) => (
-      <li class="plate">
+      <li class="plate" data-media-hover>
         <div class="plate-head">
           <span>
             {formatNumber(labProject.order)}
@@ -34,31 +35,14 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
 
         <div
           class="plate-frame"
-          style={`--media-position: ${labProject.media?.position ?? "50% 50%"}; --ink-one: ${labProject.inks[0]}; --ink-two: ${labProject.inks[1]}`}
+          style={`--ink-one:${labProject.inks[0]}; --ink-two: ${labProject.inks[1]}`}
         >
           <span class="plate-mark plate-mark--top-left" aria-hidden="true"></span>
           <span class="plate-mark plate-mark--top-right" aria-hidden="true"></span>
           <span class="plate-mark plate-mark--bottom-left" aria-hidden="true"></span>
           <span class="plate-mark plate-mark--bottom-right" aria-hidden="true"></span>
           <div class="plate-media">
-            {labProject.media?.type === "video" && (
-              <video
-                class="plate-video"
-                src={labProject.media.src}
-                poster={labProject.media.poster}
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                aria-label={`${labProject.name}, short preview`}
-              ></video>
-            )}
-            {labProject.media?.type === "image" && (
-              <picture>
-                <source srcset={`${labProject.media.src}.webp`} type="image/webp" />
-                <img src={`${labProject.media.src}.jpg`} alt={labProject.media.alt} loading="lazy" width="1200" height="739" />
-              </picture>
-            )}
+            {labProject.media && <MediaPreview media={labProject.media} />}
             {!labProject.media && (
               <div class="plate-placeholder" aria-hidden="true">
                 <span class="plate-placeholder-file">{id}</span>
@@ -68,39 +52,26 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
         </div>
 
         <dl class="plate-fields">
-          <div><dt>Name</dt><dd><b>{labProject.name}</b></dd></div>
-          <div><dt>What</dt><dd>{labProject.detail}</dd></div>
-          <div><dt>How</dt><dd>{labProject.how}</dd></div>
+          <div><dt>{translate("lab.name")}</dt><dd><b>{labProject.name}</b></dd></div>
+          <div><dt>{translate("lab.what")}</dt><dd>{labProject.detail}</dd></div>
+          <div><dt>{translate("lab.how")}</dt><dd>{labProject.how}</dd></div>
         </dl>
         <p class="paragraph plate-summary">{labProject.summary}</p>
         {labProject.award && (
           <p class="plate-award">
             <RosetteIcon class="plate-rosette" width="15" height="18" aria-hidden="true" />
-            <span><span class="visually-hidden">Awards: </span>{labProject.award}</span>
+            <span><span class="visually-hidden">{translate("awards.label")} </span>{labProject.award}</span>
           </p>
         )}
         {labProject.href && (
           <a class="plate-link" href={labProject.href} target="_blank" rel="noopener noreferrer">
-            {labProject.linkLabel ?? labProject.href} ↗<span class="visually-hidden"> (opens in a new tab)</span>
+            {labProject.linkLabel ?? labProject.href} ↗<span class="visually-hidden"> {translate("link.newTab")}</span>
           </a>
         )}
       </li>
     ))}
   </ol>
 </section>
-
-<script>
-  // the loop plays only while visible, never with reduced motion
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const videoObserver = new IntersectionObserver((observedEntries) => {
-    observedEntries.forEach((observedEntry) => {
-      const videoElement = observedEntry.target as HTMLVideoElement;
-      if (observedEntry.isIntersecting && !prefersReducedMotion) videoElement.play().catch(() => {});
-      else videoElement.pause();
-    });
-  });
-  document.querySelectorAll<HTMLVideoElement>(".plate-video").forEach((videoElement) => videoObserver.observe(videoElement));
-</script>
 
 <style>
   .after-hours {
@@ -199,31 +170,22 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
     border-color: var(--color-ink-soft);
   }
 
+  /* same soft ink blobs as the client project thumbs, they stay behind the poster while it loads */
   .plate-media {
+    position: relative;
     overflow: hidden;
     aspect-ratio: 16 / 9;
     border: 1px solid var(--color-ink);
-    background: var(--sky-8);
-
-    img,
-    video {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: var(--media-position);
-    }
-  }
-
-  /* same soft ink blobs and grain as the client project thumbs */
-  .plate-placeholder {
-    position: relative;
-    width: 100%;
-    height: 100%;
     background:
       radial-gradient(circle at 30% 38%, var(--ink-one) 0 18%, transparent 52%),
       radial-gradient(circle at 72% 64%, var(--ink-two) 0 16%, transparent 54%),
       var(--color-paper);
+  }
+
+  .plate-placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
 
     &::after {
       content: "";
@@ -243,15 +205,15 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
   }
 
   .plate-fields {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 4px 10px;
     font-size: 0.8125rem;
 
     div {
       display: grid;
-      grid-template-columns: 52px minmax(0, 1fr);
-      gap: 10px;
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
     }
 
     dt {

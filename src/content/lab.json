@@ -21,7 +21,8 @@
     "field": "3D · LLM",
     "year": "2023",
     "summary": "A 3D character used live by several Twitch streamers. It reacts to chat and stream events, and answers in real time with an LLM-driven personality.",
-    "inks": ["#547598", "#f5b595"]
+    "inks": ["#547598", "#f5b595"],
+    "media": { "type": "video", "src": "/videos/askobot/askobot.mp4", "poster": "/videos/askobot/askobot-poster.jpg" }
   },
   {
     "id": "completement-a-lest",

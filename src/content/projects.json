@@ -6,8 +6,9 @@
     "detail": "3D Viewer",
     "year": 2025,
     "role": "3D Development & Asset Pipeline",
-    "summary": "The client's 3D models came in mixed formats and sizes. Wrote a Blender + glTF-Transform pipeline to process 60+ watches in batch, down to around 6 MB each with no visible quality loss. Built the three.js viewer, ready to plug into the CMS, with custom shaders for the diamonds and physics for the moving parts.",
-    "inks": ["#e8b888", "#f5b595"]
+    "summary": "The client's 3D models came in mixed formats and sizes. Wrote a Blender + glTF-Transform pipeline to process 60+ watches in batch, down to around 5/6 MB each with no visible quality loss. Built the three.js viewer, ready to plug into the CMS, with custom shaders for the diamonds and physics for the moving parts.",
+    "inks": ["#e8b888", "#f5b595"],
+    "media": { "type": "video", "src": "/videos/chopard/chopard.mp4", "poster": "/videos/chopard/chopard-poster.jpg" }
   },
   {
     "id": "devenir",
@@ -18,7 +19,8 @@
     "role": "Unreal Engine Development",
     "summary": "Unreal Engine game played with the mind, using an Emotiv brain-computer interface headset as the controller. Built on a tight two-month deadline, with a setup that runs on any venue network: the Emotiv SDK streams over WebSockets from a client computer to a Socket.IO relay server that controls the game. Shown at Digital Festival Zurich, then OMR 23.",
     "inks": ["#6b5a78", "#d17a6c"],
-    "award": "W3 Best in Show + Webby People's Voice"
+    "award": "W3 Best in Show + Webby People's Voice",
+    "media": { "type": "video", "src": "/videos/devenir/devenir.mp4", "poster": "/videos/devenir/devenir-poster.jpg", "theme": "dark" }
   },
   {
     "id": "audemars-piguet",

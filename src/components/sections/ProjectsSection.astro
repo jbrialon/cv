@@ -1,7 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import WindowFrame from "./WindowFrame.astro";
-import RosetteIcon from "../icons/award-rosette.svg";
+import WindowFrame from "../ui/WindowFrame.astro";
+import MediaPreview from "../ui/MediaPreview.astro";
+import RosetteIcon from "../../icons/award-rosette.svg";
+import { useTranslations } from "../../i18n/ui";
+
+const translate = useTranslations(Astro.currentLocale);
 
 const projectEntries = (await getCollection("projects")).sort(
   (firstEntry, secondEntry) => firstEntry.data.order - secondEntry.data.order,
@@ -10,16 +14,17 @@ const formatNumber = (value: number) => String(value).padStart(2, "0");
 const formatAwards = (award: string) => award.split(/\s*\+\s*/).join(" - ");
 ---
 
-<WindowFrame id="projects" label="Selected client projects" filename="selected client projects" tone="sky">
-  <Fragment slot="meta">{formatNumber(projectEntries.length)} items</Fragment>
+<WindowFrame id="projects" label={translate("projects.title")} filename={translate("projects.filename")} tone="sky">
+  <Fragment slot="meta">{formatNumber(projectEntries.length)} {translate("projects.items")}</Fragment>
   <ol class="projects-list" role="list">
     {projectEntries.map(({ id, data: project }) => (
-      <li class="project-item">
+      <li class="project-item" data-media-hover>
         <div
-          class="project-thumb"
+          class:list={["project-thumb", { "project-thumb--dark": project.media?.theme === "dark" }]}
           style={`--ink-one: ${project.inks[0]}; --ink-two: ${project.inks[1]}`}
           aria-hidden="true"
         >
+          {project.media && <MediaPreview media={project.media} />}
           <span class="project-thumb-file">{id}</span>
           <span class="project-thumb-number">{formatNumber(project.order)}</span>
         </div>
@@ -51,7 +56,7 @@ const formatAwards = (award: string) => award.split(/\s*\+\s*/).join(" - ");
           {project.award && (
             <p class="project-award">
               <RosetteIcon class="project-rosette" width="15" height="18" aria-hidden="true" />
-              <span><span class="visually-hidden">Awards: </span>{formatAwards(project.award)}</span>
+              <span><span class="visually-hidden">{translate("awards.label")} </span>{formatAwards(project.award)}</span>
             </p>
           )}
         </div>
@@ -105,8 +110,29 @@ const formatAwards = (award: string) => award.split(/\s*\+\s*/).join(" - ");
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
     }
 
+    /* the grain is for the placeholder, not the real footage */
+    &:has(:global(.media-preview))::after {
+      display: none;
+    }
+
     @media print {
       print-color-adjust: exact;
+    }
+  }
+
+  .project-thumb--dark {
+    color: var(--color-on-dark);
+  }
+
+  .project-thumb-file,
+  .project-thumb-number {
+    transition: opacity 0.3s linear;
+  }
+
+  /* the labels step aside while the video plays */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .project-item:hover .project-thumb:has(:global(.media-preview-video)) :is(.project-thumb-file, .project-thumb-number) {
+      opacity: 0;
     }
   }
 

@@ -1,13 +1,17 @@
 ---
 import { getCollection } from "astro:content";
-import WindowFrame from "./WindowFrame.astro";
-import ArrowRightIcon from "../icons/arrow-right.svg";
+import WindowFrame from "../ui/WindowFrame.astro";
+import ArrowRightIcon from "../../icons/arrow-right.svg";
+import { defaultLocale, useTranslations } from "../../i18n/ui";
+
+const currentLocale = Astro.currentLocale ?? defaultLocale;
+const translate = useTranslations(currentLocale);
 
 const experienceEntries = (await getCollection("experience")).sort(
   (firstEntry, secondEntry) => secondEntry.data.startDate.getTime() - firstEntry.data.startDate.getTime(),
 );
 
-const monthYearFormat = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+const monthYearFormat = new Intl.DateTimeFormat(currentLocale, { month: "short", year: "numeric", timeZone: "UTC" });
 const toIsoMonth = (date: Date) => date.toISOString().slice(0, 7);
 
 const firstYear = experienceEntries.reduce(
@@ -20,11 +24,11 @@ const lastYear = experienceEntries.reduce(
 );
 ---
 
-<WindowFrame id="experience" label="Experience" filename="experience">
+<WindowFrame id="experience" label={translate("experience.title")} filename={translate("experience.filename")}>
   <span slot="meta" class="year-range">
     {firstYear}
     <ArrowRightIcon class="year-range-arrow" width="12" height="12" aria-hidden="true" />
-    <span class="visually-hidden">to</span>
+    <span class="visually-hidden">{translate("range.to")}</span>
     {lastYear}
   </span>
 
@@ -37,11 +41,11 @@ const lastYear = experienceEntries.reduce(
           <p class="paragraph experience-dates">
             <time datetime={toIsoMonth(job.startDate)}>{monthYearFormat.format(job.startDate)}</time>
             <ArrowRightIcon class="year-range-arrow" width="12" height="12" aria-hidden="true" />
-            <span class="visually-hidden">to</span>
+            <span class="visually-hidden">{translate("range.to")}</span>
             <span class="experience-dates-dash">–</span>
             <time datetime={toIsoMonth(job.endDate)}>{monthYearFormat.format(job.endDate)}</time>
           </p>
-          {job.formerRole && <p class="paragraph experience-former-role">Joined as {job.formerRole}</p>}
+          {job.formerRole && <p class="paragraph experience-former-role">{translate("experience.joinedAs")} {job.formerRole}</p>}
         </div>
 
         <ul class="experience-highlights" role="list">

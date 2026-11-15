@@ -2,6 +2,28 @@ import { defineCollection } from "astro:content";
 import { file } from "astro/loaders";
 import { z } from "astro/zod";
 
+const mediaBase = {
+  position: z.string().default("50% 50%"),
+  theme: z.enum(["light", "dark"]).default("light"),
+};
+
+const mediaSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("video"),
+    src: z.string(),
+    poster: z.string(),
+    position: mediaBase.position,
+    theme: mediaBase.theme,
+  }),
+  z.object({
+    type: z.literal("image"),
+    src: z.string(),
+    alt: z.string(),
+    position: mediaBase.position,
+    theme: mediaBase.theme,
+  }),
+]);
+
 const experience = defineCollection({
   loader: file("src/content/experience.json"),
   schema: z.object({
@@ -26,6 +48,8 @@ const projects = defineCollection({
     summary: z.string().optional(),
     award: z.string().optional(),
     inks: z.tuple([z.string(), z.string()]).default(["#93b6c9", "#f5b595"]),
+    // without media, the thumb shows a blurred ink placeholder
+    media: mediaSchema.optional(),
   }),
 });
 
@@ -54,12 +78,7 @@ const lab = defineCollection({
     linkLabel: z.string().optional(),
     inks: z.tuple([z.string(), z.string()]).default(["#93b6c9", "#f5b595"]),
     // without media, the plate shows a blurred ink placeholder
-    media: z
-      .discriminatedUnion("type", [
-        z.object({ type: z.literal("video"), src: z.string(), poster: z.string(), position: z.string().default("50% 50%") }),
-        z.object({ type: z.literal("image"), src: z.string(), alt: z.string(), position: z.string().default("50% 50%") }),
-      ])
-      .optional(),
+    media: mediaSchema.optional(),
   }),
 });
 

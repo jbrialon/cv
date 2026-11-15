@@ -1,7 +1,10 @@
 ---
-import TextLink from "./TextLink.astro";
-import ArrowRightIcon from "../icons/arrow-right.svg";
-import { profile } from "../data/profile";
+import TextLink from "../ui/TextLink.astro";
+import ArrowRightIcon from "../../icons/arrow-right.svg";
+import { profile } from "../../data/profile";
+import { useTranslations } from "../../i18n/ui";
+
+const translate = useTranslations(Astro.currentLocale);
 
 const externalLinks = profile.contactLinks.filter((contactLink) => contactLink.external);
 const buildYear = new Date().getFullYear();
@@ -11,9 +14,9 @@ const buildYear = new Date().getFullYear();
   <div class="footer-meta">
     <span>© {buildYear} {profile.name}</span>
 
-    <nav aria-label="Contact">
+    <nav aria-label={translate("nav.contact")}>
       <ul class="footer-links" role="list">
-        <li><TextLink href={`mailto:${profile.email}`}>email</TextLink></li>
+        <li><TextLink href={`mailto:${profile.email}`}>{translate("footer.email")}</TextLink></li>
         {externalLinks.map((contactLink) => (
           <li>
             <TextLink href={contactLink.href} external>{contactLink.label.toLowerCase()}</TextLink>
@@ -26,7 +29,7 @@ const buildYear = new Date().getFullYear();
     </nav>
 
     <a class="back-to-top" href="#">
-      Back to top
+      {translate("footer.backToTop")}
       <ArrowRightIcon class="back-to-top-icon" width="12" height="12" aria-hidden="true" />
     </a>
   </div>

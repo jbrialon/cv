@@ -3,8 +3,16 @@ import { defineConfig, fontProviders } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://cv.jerem.cool",
   devToolbar: {
     enabled: false,
+  },
+  i18n: {
+    locales: ["en", "fr"],
+    defaultLocale: "en",
+    routing: {
+      prefixDefaultLocale: false,
+    },
   },
   fonts: [
     {

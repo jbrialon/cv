@@ -1,5 +1,5 @@
 ---
-import ExternalLinkIcon from '../icons/external-link.svg';
+import ExternalLinkIcon from '../../icons/external-link.svg';
 
 interface Props {
   href: string;
@@ -7,7 +7,10 @@ interface Props {
   variant?: "dark" | "light";
 }
 
+import { useTranslations } from '../../i18n/ui';
+
 const { href, external = false, variant = "dark" } = Astro.props;
+const translate = useTranslations(Astro.currentLocale);
 ---
 
 <a
@@ -20,7 +23,7 @@ const { href, external = false, variant = "dark" } = Astro.props;
   {external && (
     <>
       <ExternalLinkIcon class="button-link-icon" width="12" height="12" aria-hidden="true" />
-      <span class="visually-hidden"> (opens in a new tab)</span>
+      <span class="visually-hidden"> {translate("link.newTab")}</span>
     </>
   )}
 </a>

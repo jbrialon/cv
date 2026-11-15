@@ -6,7 +6,10 @@ interface Props {
   tone?: "ink" | "on-dark";
 }
 
+import { useTranslations } from "../../i18n/ui";
+
 const { href, external = false, download, tone = "ink" } = Astro.props;
+const translate = useTranslations(Astro.currentLocale);
 ---
 
 <a
@@ -17,7 +20,7 @@ const { href, external = false, download, tone = "ink" } = Astro.props;
   rel={external ? "noopener noreferrer" : undefined}
 >
   <slot />
-  {external && <span class="visually-hidden"> (opens in a new tab)</span>}
+  {external && <span class="visually-hidden"> {translate("link.newTab")}</span>}
 </a>
 
 <style>

@@ -1,12 +1,13 @@
 ---
-import SectionRow from './SectionRow.astro';
-import { profile } from '../data/profile';
+import SectionRow from '../ui/SectionRow.astro';
+import { profile } from '../../data/profile';
+import { useTranslations } from '../../i18n/ui';
 
-// "Annecy (FR) · Geneva area · Cross-border permit (G)" → three facts
+const translate = useTranslations(Astro.currentLocale);
 const locationFacts = profile.location.split(/\s*·\s*/);
 ---
 
-<SectionRow title="Profile" id="profile" icon="sphere">
+<SectionRow title={translate("profile.title")} id="profile" icon="sphere">
   <div class="profile-main">
     {profile.summary.map((paragraph) => <p class="paragraph">{paragraph}</p>)}
     <p class="profile-status">
@@ -16,10 +17,10 @@ const locationFacts = profile.location.split(/\s*·\s*/);
   </div>
 
   <div class="profile-side">
-    <ul class="profile-facts" role="list" aria-label="Location">
+    <ul class="profile-facts" role="list" aria-label={translate("profile.location")}>
       {locationFacts.map((locationFact) => <li>{locationFact}</li>)}
     </ul>
-    <ul class="profile-links" role="list" aria-label="Contact">
+    <ul class="profile-links" role="list" aria-label={translate("nav.contact")}>
       {profile.contactLinks.map((contactLink) => (
         <li>
           <a
@@ -29,7 +30,7 @@ const locationFacts = profile.location.split(/\s*·\s*/);
             rel={contactLink.external ? "noopener noreferrer" : undefined}
           >
             {contactLink.label}
-            {contactLink.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+            {contactLink.external && <span class="visually-hidden"> {translate("link.newTab")}</span>}
           </a>
         </li>
       ))}

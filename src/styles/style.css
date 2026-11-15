@@ -37,8 +37,8 @@ body {
 }
 
 ::selection {
-  background: var(--color-ink);
-  color: var(--color-paper);
+  background: var(--color-selection);
+  color: var(--color-on-selection);
 }
 
 a {

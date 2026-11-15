@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BackgroundCanvas from '../components/BackgroundCanvas.astro';
+import HeroSection from '../components/sections/HeroSection.astro';
+import PrintHeader from '../components/sections/PrintHeader.astro';
+import ProfileSection from '../components/sections/ProfileSection.astro';
+import ExperienceSection from '../components/sections/ExperienceSection.astro';
+import ProjectsSection from '../components/sections/ProjectsSection.astro';
+import LabSection from '../components/sections/LabSection.astro';
+import ExpertiseSection from '../components/sections/ExpertiseSection.astro';
+import EducationSection from '../components/sections/EducationSection.astro';
+import LanguagesSection from '../components/sections/LanguagesSection.astro';
+import FooterSection from '../components/sections/FooterSection.astro';
+import { profile } from '../data/profile';
+---
+
+<BaseLayout title={`${profile.name}, ${profile.role}`}>
+  <BackgroundCanvas />
+  <HeroSection />
+  <PrintHeader />
+  <main class="page-content">
+    <ProfileSection />
+    <ExperienceSection />
+    <ExpertiseSection />
+    <ProjectsSection />
+    <LabSection />
+    <EducationSection />
+    <LanguagesSection />
+  </main>
+  <FooterSection />
+</BaseLayout>
+
+<style>
+  .page-content {
+    position: relative;
+    z-index: var(--z-content);
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  @media (max-width: 40em) {
+    .page-content {
+      padding: 0 16px;
+    }
+  }
+
+  @media print {
+    .page-content {
+      max-width: none;
+      padding: 0;
+    }
+  }
+</style>

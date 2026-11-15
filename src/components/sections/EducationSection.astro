@@ -1,13 +1,16 @@
 ---
 import { getCollection } from "astro:content";
-import SectionRow from "./SectionRow.astro";
+import SectionRow from "../ui/SectionRow.astro";
+import { useTranslations } from "../../i18n/ui";
+
+const translate = useTranslations(Astro.currentLocale);
 
 const educationEntries = (await getCollection("education")).sort(
   (firstEntry, secondEntry) => secondEntry.data.endYear - firstEntry.data.endYear,
 );
 ---
 
-<SectionRow title="Education" id="education" icon="stairs">
+<SectionRow title={translate("education.title")} id="education" icon="stairs">
   <ul class="education-list" role="list">
     {educationEntries.map(({ data: diploma }) => (
       <li class="paragraph education-item section-icon-trigger">
