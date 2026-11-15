@@ -85,6 +85,13 @@ export default class Experience {
     this.camera.update();
     this.world.update();
     this.renderer.update();
+
+    // the sky is drawn, so the hero CSS gradient can fade out
+    if (!this.isBackgroundReady) {
+      this.isBackgroundReady = true;
+      document.documentElement.dataset.backgroundReady = "";
+    }
+
     this.stats.end();
     this.stats.update();
   }

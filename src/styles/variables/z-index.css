@@ -1,4 +1,5 @@
 :root {
+  --z-background: 10;
   --z-webgl: 20;
   --z-content: 30;
   --z-debug: 40;
