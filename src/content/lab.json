@@ -76,6 +76,7 @@
     "award": "CSS Design Awards · UI, UX & Innovation",
     "href": "https://completementalest.fr",
     "linkLabel": "completementalest.fr",
-    "inks": ["#e8b888", "#d17a6c"]
+    "inks": ["#e8b888", "#d17a6c"],
+    "media": { "type": "video", "src": "/videos/completementalest/completementalest.mp4", "poster": "/videos/completementalest/completementalest-poster.jpg" }
   }
 ]
