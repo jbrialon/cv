@@ -16,7 +16,7 @@ const translate = useTranslations(currentLocale);
 const description = translate("meta.description");
 // social networks need absolute urls
 const pageUrl = new URL(Astro.url.pathname, Astro.site);
-const imageUrl = new URL("/og-image.jpg", Astro.site);
+const imageUrl = new URL(`/og-image-${currentLocale}.jpg`, Astro.site);
 ---
 
 <html lang={currentLocale}>
