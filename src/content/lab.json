@@ -22,7 +22,8 @@
     },
     "href": "https://story.completementalest.fr",
     "linkLabel": "story.completementalest.fr",
-    "inks": ["#93b6c9", "#ebc4c0"]
+    "inks": ["#93b6c9", "#ebc4c0"],
+    "media": { "type": "video", "src": "/videos/story/story.mp4", "poster": "/videos/story/story-poster.jpg" }
   },
   {
     "id": "askobot",
