@@ -13,7 +13,7 @@
       "fr": "Développement 3D et pipeline d'optimisation des assets"
     },
     "summary": {
-      "en": "The client's 3D models came in mixed formats and sizes. Wrote a Blender + glTF-Transform pipeline to process 60+ watches in batch, down to around 5/6 MB each with no visible quality loss. Built the three.js viewer, ready to plug into the CMS, with custom shaders for the diamonds and physics for the moving parts.",
+      "en": "The client's 3D models came in mixed formats and sizes. Wrote a Blender + glTF-Transform pipeline to process 60+ watches in batch, down to around 5–6 MB each with no visible quality loss. Built the three.js viewer, ready to plug into the CMS, with custom shaders for the diamonds and physics for the moving parts.",
       "fr": "Les modèles 3D fournis par le client nécessitaient un travail d'uniformisation et d'optimisation. Développement d'un pipeline Blender et glTF-Transform pour traiter plus de 60 montres par lots et réduire leur poids à environ 5–6 Mo chacune, sans perte de qualité visible. Création d'une visionneuse three.js intégrable au CMS, avec shaders sur mesure pour les diamants et simulation physique des éléments mobiles."
     },
     "inks": ["#e8b888", "#f5b595"],
