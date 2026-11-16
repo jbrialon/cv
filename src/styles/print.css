@@ -21,6 +21,11 @@
     line-height: 1.5;
   }
 
+  /* french adjustements so it fits into 2 pages only */
+  html:lang(fr) body {
+    line-height: 1.42;
+  }
+
   a {
     color: inherit;
   }
